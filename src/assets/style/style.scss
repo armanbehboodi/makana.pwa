@@ -1,0 +1,70 @@
+@import "config";
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-family: iranSans, sans-serif, Tahoma;
+  margin: 0;
+  padding: 0;
+}
+
+/* REGISTER */
+
+.mk-register-root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $light;
+
+  .mk-register-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    max-width: 90%;
+    background-color: $white;
+    padding: 2rem 2.5rem;
+    border-radius: 1.2rem;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.05) 0 0 0 1px;
+
+    .mk-register-logo {
+      width: 28rem;
+      max-width: 100%;
+    }
+  }
+}
+
+/* OTP REGISTER */
+
+.mk-otp-label {
+  direction: rtl;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+}
+
+.mk-otp-container {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+
+  input {
+    background-color: #f2f2f2;
+    font-family: iranSans, sans-serif, Tahoma;
+    font-size: 1.4rem;
+    padding: 10px;
+    outline: none;
+    border-width: 0 0 2px 0;
+    border-color: $lightGray;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &:focus {
+      border-color: $main;
+    }
+  }
+}

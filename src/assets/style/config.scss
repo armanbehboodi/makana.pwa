@@ -1,0 +1,36 @@
+/* FONTS */
+
+@font-face {
+  font-family: 'iranSans';
+  src: local('iranSans'),
+  url('../fonts/iranSansReg/IRANSansWeb(FaNum).ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'iranSansBold';
+  src: local('iranSansBold'),
+  url('../fonts/iranSansReg/IRANSansWeb(FaNum)_Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'dana';
+  src: local('dana'),
+  url('../fonts/dana/Dana-FaNum-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'danaBold';
+  src: local('danaBold'),
+  url('../fonts/dana/Dana-FaNum-UltraBold.ttf') format('truetype');
+}
+
+/* COLORS */
+
+$main : #0a81d7;
+$white: #fff;
+$black: #000;
+$lightGray: #c9c9c9;
+$gray: #979797FF;
+$light: #f6f6f6;
+$success: #28a745;
+$error: #dc3545;

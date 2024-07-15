@@ -1,0 +1,22 @@
+{
+  "register": {
+    "mobile": "Phone number",
+    "password": "Password",
+    "repeat": "Repeat password",
+    "faq": "I have read the rules and regulations and I agree.",
+    "account": "I have account.",
+    "confirm": "Confirm"
+  },
+  "otp": {
+    "label": "Enter the code sent.",
+    "resend": "Resend code",
+    "edit": "Edit number",
+    "success": "Validation was successful. You will enter the login page in a few moments."
+  },
+  "login": {
+    "account": "Create account"
+  },
+  "error": {
+    "default": "Oops! error happened. please try again later."
+  }
+}

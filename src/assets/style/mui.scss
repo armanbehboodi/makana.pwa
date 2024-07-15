@@ -1,0 +1,116 @@
+@import "config";
+
+html[lang='fa'] {
+  .MuiFormControl-root:has(.MuiInputBase-root) {
+    .MuiInputBase-root {
+      direction: rtl !important;
+      padding: 0;
+
+      input {
+        width: 100%;
+        padding-left: 15%;
+      }
+    }
+
+    .MuiInputAdornment-root {
+      position: absolute;
+      left: 5px;
+    }
+
+    input, label {
+      font-family: iranSans, sans-serif, Tahoma !important;
+      font-size: 1.4rem !important;
+    }
+  }
+
+  .MuiFormControlLabel-root {
+    direction: rtl;
+    margin: 0 auto 0 0;
+
+    span.MuiTypography-root {
+      font-family: iranSans, sans-serif, Tahoma;
+      font-size: 1.2rem;
+    }
+  }
+
+  button.MuiButtonBase-root {
+    width: 100%;
+    font-family: 'iranSans', sans-serif, Tahoma;
+    font-size: 1.4rem;
+    padding: 10px 10px;
+    direction: rtl;
+
+    span.MuiButton-icon {
+      margin: 0 0 0 10px;
+    }
+  }
+
+  .MuiSnackbarContent-root {
+    direction: rtl;
+    text-align: right;
+    font-family: iranSans, sans-serif, Tahoma !important;
+  }
+}
+
+/* Some global customization (color, status and size) */
+
+.MuiFormControl-root:has(.MuiInputBase-root) {
+  label.Mui-focused {
+    color: $main;
+  }
+
+  .MuiInputBase-root:after {
+    border-color: $main;
+  }
+}
+
+.MuiFormControl-root:has(.MuiInputBase-root.Mui-error) {
+  label, label.Mui-focused {
+    color: $error;
+  }
+
+  .MuiInputBase-root:after {
+    border-color: $error;
+  }
+}
+
+.MuiFormControlLabel-root {
+  span.MuiButtonBase-root.Mui-checked {
+    color: $main;
+  }
+}
+
+button.MuiButtonBase-root[data-color="gray"] {
+  background-color: $gray;
+}
+
+button.MuiButtonBase-root[data-color="main"] {
+  background-color: $main;
+}
+
+button.MuiButtonBase-root[data-status="disabled"] {
+  background-color: $lightGray;
+  pointer-events: none;
+}
+
+span.MuiButtonBase-root svg.MuiSvgIcon-root {
+  width: 1.65rem;
+  height: 1.65rem;
+}
+
+.MuiSnackbar-root[data-type='error'] {
+  .MuiSnackbarContent-root {
+    background-color: $error;
+  }
+}
+
+.MuiSnackbar-root[data-type='success'] {
+  .MuiSnackbarContent-root {
+    background-color: $success;
+  }
+}
+
+.MuiSnackbarContent-root {
+  font-size: 1.4rem !important;
+  box-shadow: 2px 2px 10px $lightGray;
+}
