@@ -14,8 +14,8 @@ export const Login = () => {
     const {t} = useTranslation(),
         reduxDispatch = useDispatch(),
         refs = {
-            mobile: useRef<HTMLInputElement>(null),
-            password: useRef<HTMLInputElement>(null),
+            mobile: useRef<HTMLInputElement | null>(null),
+            password: useRef<HTMLInputElement | null>(null),
         };
 
     const initializer = (initialState: any) => initialState,

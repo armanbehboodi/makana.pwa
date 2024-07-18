@@ -7,5 +7,9 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "types": ["node", "file-loader"],
+    "typeRoots": ["node_modules/@types", "src/types"]
+  }
 }
