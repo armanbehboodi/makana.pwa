@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {Checkbox, FormControlLabel} from "@mui/material";
 
 interface IProps {
@@ -6,9 +6,8 @@ interface IProps {
     changeHandler: (isChecked: boolean) => void
 }
 
-export const CheckField = (props: IProps) => {
-    const [checked, setChecked] = useState(false),
-        {label, changeHandler} = props;
+export const CheckField: React.FC<IProps> = ({label, changeHandler}) => {
+    const [checked, setChecked] = useState(false);
 
     const handleChange = () => {
         changeHandler(!checked);

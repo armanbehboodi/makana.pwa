@@ -1,9 +1,10 @@
+import React from "react";
 import {Button} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import ReplayIcon from '@mui/icons-material/Replay';
-import {CountDown} from "../CountDown";
+import {CountDown} from "../helper/CountDown";
 
 interface IProps {
     label: string,
@@ -15,8 +16,15 @@ interface IProps {
     finishCountDown?: () => void
 }
 
-export const ButtonField = (props: IProps) => {
-    const {label, icon, color, isDisabled, countDownSeconds} = props;
+export const ButtonField: React.FC<IProps> = ({
+                                                  label,
+                                                  icon,
+                                                  color,
+                                                  isDisabled,
+                                                  countDownSeconds,
+                                                  pressHandler,
+                                                  finishCountDown
+                                              }) => {
 
     let buttonIcon;
     switch (icon) {
@@ -39,14 +47,14 @@ export const ButtonField = (props: IProps) => {
 
     const clickHandler = () => {
         if (typeof isDisabled === "undefined" || !isDisabled) {
-            props.pressHandler();
+            pressHandler();
         }
     }
 
     return (
         <Button variant="contained" startIcon={buttonIcon} data-color={color}
                 data-status={isDisabled ? 'disabled' : 'enabled'} onClick={clickHandler}>
-            {label} {countDownSeconds ? <CountDown seconds={countDownSeconds} finish={props.finishCountDown!}/> : null}
+            {label} {countDownSeconds ? <CountDown seconds={countDownSeconds} finish={finishCountDown!}/> : null}
         </Button>
     )
 }

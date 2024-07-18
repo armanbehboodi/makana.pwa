@@ -1,4 +1,4 @@
-import {useEffect, useReducer} from "react";
+import React, {useEffect, useReducer} from "react";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {useTranslation} from 'react-i18next';
 import OtpInput from 'react-otp-input';
@@ -7,8 +7,9 @@ import {ButtonField} from "../components/ui/ButtonField";
 import {pageSliceActions, RootState} from "../store/store";
 import {staticData} from "../constants/staticData";
 import Snackbar from "@mui/material/Snackbar";
+import {p2e} from "../helper/LngConvertor";
 
-export const OtpRegister = () => {
+export const OtpRegister:React.FC = () => {
     const {t} = useTranslation(),
         reduxDispatch = useDispatch(),
         {mobile} = useSelector((state: RootState) => ({
@@ -35,7 +36,7 @@ export const OtpRegister = () => {
             const response = await fetch(staticData.refresh_code_api, {
                 method: "POST",
                 body: JSON.stringify({
-                    phone_number: mobile
+                    phone_number: p2e(mobile)
                 }),
                 headers: {
                     "Content-Type": "application/json"
@@ -57,8 +58,8 @@ export const OtpRegister = () => {
             const response = await fetch(staticData.verify_api, {
                 method: "POST",
                 body: JSON.stringify({
-                    phone_number: mobile,
-                    verification_code: state.otp
+                    phone_number: p2e(mobile),
+                    verification_code: p2e(state.otp)
                 }),
                 headers: {
                     "Content-Type": "application/json"
@@ -73,7 +74,7 @@ export const OtpRegister = () => {
                     reduxDispatch(pageSliceActions.setPage({page: "login"}));
                 },5000);
             } else {
-                dispatch({type: "snack", payload: {snack: true, message: data.message}});
+                dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
             }
         } catch (error) {
             dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});

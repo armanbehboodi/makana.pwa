@@ -17,6 +17,11 @@
     "account": "Create account"
   },
   "error": {
-    "default": "Oops! error happened. please try again later."
+    "default": "Oops! error happened. please try again later.",
+    "User already registered": "User already registered.",
+    "Verification code is incorrect": "Verification code is incorrect.",
+    "Invalid username or password": "Invalid username or password.",
+    "Invalid phone number": "Invalid phone number.",
+    "Network Error": "Network error"
   }
 }

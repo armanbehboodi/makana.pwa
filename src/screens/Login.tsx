@@ -1,16 +1,17 @@
-import {useReducer, useRef} from "react";
+import React, {useReducer, useRef} from "react";
 import {useDispatch} from "react-redux";
 import {useTranslation} from 'react-i18next';
-import Logo from "../assets/images/logoWithText.jpg";
+import Snackbar from "@mui/material/Snackbar";
+import {dataSliceActions, pageSliceActions} from "../store/store";
+import {staticData} from "../constants/staticData";
 import {TextField} from "../components/ui/TextField";
 import {ButtonField} from "../components/ui/ButtonField";
-import {Validator} from "../helper/Validator";
-import {pageSliceActions} from "../store/store";
-import Snackbar from "@mui/material/Snackbar";
-import {staticData} from "../constants/staticData";
 import {setCookie} from "../helper/CookieHandler";
+import {p2e} from "../helper/LngConvertor";
+import {Validator} from "../helper/Validator";
+import Logo from "../assets/images/logoWithText.jpg";
 
-export const Login = () => {
+export const Login: React.FC = () => {
     const {t} = useTranslation(),
         reduxDispatch = useDispatch(),
         refs = {
@@ -33,18 +34,20 @@ export const Login = () => {
     );
 
     const loginHandler = async () => {
-        let error = {
-            mobile: !Validator("mobile", refs.mobile.current!.value),
-            password: !Validator("password", refs.password.current!.value),
-        };
+        let mobile = p2e(refs.mobile.current!.value),
+            password = p2e(refs.password.current!.value),
+            error = {
+                mobile: !Validator("mobile", mobile),
+                password: !Validator("password", password),
+            };
 
         if (!Object.values(error).some((item: boolean) => item)) {
             try {
                 const response = await fetch(staticData.login_api, {
                     method: "POST",
                     body: JSON.stringify({
-                        phone_number: refs.mobile.current!.value,
-                        password: refs.password.current!.value
+                        phone_number: mobile,
+                        password: password
                     }),
                     headers: {
                         "Content-Type": "application/json"
@@ -54,10 +57,21 @@ export const Login = () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    setCookie("mk-login-token", data.token, 7);
-                    reduxDispatch(pageSliceActions.setPage({page: "login"}));
+                    fetch(staticData.devices, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${data['token']}`
+                        }
+                    }).then((response) => {
+                        return response.json();
+                    }).then((data) => {
+                        setCookie("mk-login-token", data['token'], 7);
+                        reduxDispatch(dataSliceActions.setDevices({devices: data.devices, page: "map"}));
+                    }).catch(() => {
+                        dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});
+                    })
                 } else {
-                    dispatch({type: "snack", payload: {snack: true, message: data.message}});
+                    dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
                 }
             } catch (error) {
                 dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});

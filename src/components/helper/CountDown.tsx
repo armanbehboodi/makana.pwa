@@ -1,13 +1,12 @@
-import {useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 interface IProps {
     seconds: number,
     finish: () => void
 }
 
-export const CountDown = (props: IProps) => {
-    const {seconds} = props,
-        countdownRef = useRef<any>(null),
+export const CountDown:React.FC<IProps> = ({seconds, finish}) => {
+    const countdownRef = useRef<any>(null),
         intervalRef = useRef<any>(null),
         secondsRef = useRef(seconds);
 
@@ -20,7 +19,7 @@ export const CountDown = (props: IProps) => {
                 secondsRef.current -= 1;
             } else if (intervalRef.current) {
                 clearInterval(intervalRef.current);
-                props.finish();
+                finish();
             }
         };
 

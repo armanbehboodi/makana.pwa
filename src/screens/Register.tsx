@@ -1,4 +1,4 @@
-import {useRef, useReducer} from "react";
+import React, {useRef, useReducer} from "react";
 import {useDispatch} from "react-redux";
 import {useTranslation} from 'react-i18next';
 import {pageSliceActions} from "../store/store";
@@ -9,8 +9,9 @@ import {TextField} from "../components/ui/TextField";
 import {CheckField} from "../components/ui/CheckField";
 import {ButtonField} from "../components/ui/ButtonField";
 import {staticData} from "../constants/staticData";
+import {p2e} from "../helper/LngConvertor";
 
-export const Register = () => {
+export const Register:React.FC = () => {
     const {t} = useTranslation(),
         reduxDispatch = useDispatch(),
         refs = {
@@ -36,10 +37,13 @@ export const Register = () => {
     );
 
     const registerHandler = async () => {
-        let error = {
-            mobile: !Validator("mobile", refs.mobile.current!.value),
-            password: !Validator("password", refs.password.current!.value),
-            repeat: refs.password.current!.value !== refs.repeat.current!.value,
+        let mobile = p2e(refs.mobile.current!.value),
+            password = p2e(refs.password.current!.value),
+            repeat = p2e(refs.repeat.current!.value),
+            error = {
+            mobile: !Validator("mobile", mobile),
+            password: !Validator("password", password),
+            repeat: password !== repeat,
         };
 
         if (!Object.values(error).some((item: boolean) => item)) {
@@ -47,8 +51,8 @@ export const Register = () => {
                 const response = await fetch(staticData.register_api, {
                     method: "POST",
                     body: JSON.stringify({
-                        phone_number: refs.mobile.current!.value,
-                        password: refs.password.current!.value
+                        phone_number: mobile,
+                        password: password
                     }),
                     headers: {
                         "Content-Type": "application/json"
@@ -60,7 +64,7 @@ export const Register = () => {
                 if (response.ok) {
                     reduxDispatch(pageSliceActions.setPage({page: "otp", extra_data: refs.mobile.current!.value}));
                 } else {
-                    dispatch({type: "snack", payload: {snack: true, message: data.message}});
+                    dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
                 }
             } catch (error) {
                 dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});

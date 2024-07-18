@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import dataSlice from "../data/dataSlice";
 
 interface IPage {
     page: string;
@@ -28,6 +29,12 @@ const pageSlice = createSlice({
         switchLoading: (state, action: PayloadAction<boolean>) => {
             state.is_loading = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(dataSlice.actions.setDevices, (state: IPage, action: PayloadAction<any>) => {
+                state.page = action.payload.page;
+            });
     }
 });
 

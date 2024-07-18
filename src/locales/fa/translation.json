@@ -17,6 +17,11 @@
     "account": "ایجاد حساب کاربری"
   },
   "error": {
-    "default": "خطایی رخ داد! لطفا مجددا تلاش نمایید."
+    "default": "خطایی رخ داد! لطفا مجددا تلاش نمایید.",
+    "User already registered": "کاربری با این مشخصات قبلا ثبت نام کرده است.",
+    "Verification code is incorrect": "کد وارد شده صحیح نمی باشد.",
+    "Invalid username or password": "نام کاربری یا کلمه عبور صحیح نمی باشد.",
+    "Invalid phone number": "شماره موبایل وارد شده صحیح نمی باشد.",
+    "Network Error": "خطای شبکه"
   }
 }
