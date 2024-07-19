@@ -20,7 +20,9 @@
     "speed": "Speed",
     "movement": "Movement",
     "height": "Height",
-    "start": "Start"
+    "start": "Start",
+    "popup": "is here!",
+    "popupDefault": "Device location"
   },
   "navigation": {
     "map": "Map",
@@ -28,6 +30,10 @@
     "health": "Health",
     "information": "Information",
     "profile": "Profile"
+  },
+  "date": {
+    "start": "Start date",
+    "end": "End date"
   },
   "error": {
     "default": "Oops! error happened. please try again later.",

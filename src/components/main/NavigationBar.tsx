@@ -1,12 +1,12 @@
 import React from "react";
 import {useTranslation} from 'react-i18next';
+import {shallowEqual, useSelector, useDispatch} from "react-redux";
+import {pageSliceActions, RootState} from "../../store/store";
 import Map from "../../assets/images/icons/map.svg";
 import History from "../../assets/images/icons/history.svg";
 import Health from "../../assets/images/icons/health.svg";
 import Paw from "../../assets/images/icons/paw.svg";
 import Profile from "../../assets/images/icons/profile.svg";
-import {shallowEqual, useSelector} from "react-redux";
-import {RootState} from "../../store/store";
 
 interface INavigationList {
     label: string,
@@ -17,6 +17,7 @@ interface INavigationList {
 export const NavigationBar: React.FC = () => {
 
     const {t} = useTranslation(),
+        dispatch = useDispatch(),
         {currentContent} = useSelector((state: RootState) => ({
             currentContent: state.page.content
         }), shallowEqual),
@@ -52,7 +53,8 @@ export const NavigationBar: React.FC = () => {
         <div className="mk-navigation-root">
             {navigationList.map((item: INavigationList, index: number) => {
                 return (
-                    <div className={`mk-navigation-item ${item.target === currentContent ? "active" : ""}`} key={index}>
+                    <div className={`mk-navigation-item ${item.target === currentContent ? "active" : ""}`} key={index}
+                    onClick={() => dispatch(pageSliceActions.setContent(item.target))}>
                         <img src={item.icon} alt="nav"/>
                         <p>{item.label}</p>
                     </div>

@@ -1,12 +1,12 @@
 import React, {useEffect, useReducer} from "react";
 import {shallowEqual, useSelector} from "react-redux";
 import {useTranslation} from 'react-i18next';
-import {RootState} from "../store/store";
-import {MapBox} from "../components/main/MapBox";
-import {ButtonField} from "../components/ui/ButtonField";
-import {getCookie} from "../helper/CookieHandler";
-import Default from "../assets/images/default.png";
-import {staticData} from "../constants/staticData";
+import {RootState} from "../../store/store";
+import {MapBox} from "../../components/main/MapBox";
+import {ButtonField} from "../../components/ui/ButtonField";
+import {getCookie} from "../../helper/CookieHandler";
+import Default from "../../assets/images/default.png";
+import {staticData} from "../../constants/staticData";
 
 export const Map: React.FC = () => {
     const {t} = useTranslation(),
@@ -60,7 +60,7 @@ export const Map: React.FC = () => {
                     )
                 })}
             </div>
-            <MapBox lat={state.lat} lng={state.lng}/>
+            <MapBox lat={state.lat} lng={state.lng} device={state.device}/>
             <div className="mk-map-selected-device">
                 <img src={state.device['image_url'] || Default} alt="device"
                      onError={(e: any) => e.currentTarget.src = Default}/>

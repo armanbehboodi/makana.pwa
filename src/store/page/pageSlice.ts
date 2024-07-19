@@ -13,6 +13,13 @@ interface ISetPageAction {
     extra_data?: any
 }
 
+// const initialState: IPage = {
+//     page: getCookie("mk-login-token").length > 0 ? "main" : "register", // check if token is valid, let user in without logging in
+//     content: "map",
+//     is_loading: false,
+//     extra_data: null
+// };
+
 const initialState: IPage = {
     page: "register",
     content: "map",
