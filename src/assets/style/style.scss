@@ -71,80 +71,165 @@ body {
 
 /* MAP */
 
-.mk-map-root {
+.mk-main-root {
   width: 100%;
   max-width: 500px;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: auto;
   position: relative;
   overflow: hidden;
 
-  .mk-map-devices-list {
+  .mk-map-root {
     width: 100%;
     display: flex;
-    flex-flow: row nowrap;
-    gap: 2rem;
-    background: $light;
-    border: 2px solid $fadeGray;
-    padding: 1rem 1.5rem;
-    overflow-y: auto;
-    box-sizing: border-box;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    flex-direction: column;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
 
-    .mk-map-device {
-      min-width: 5.5rem;
+    .mk-map-devices-list {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      gap: 1rem;
+      background: $light;
+      border: 2px solid $fadeGray;
+      padding: 1rem 1rem 2.85rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+      box-sizing: border-box;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      .mk-map-device {
+        width: 10%;
+        min-width: 6.25rem;
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.7rem;
+        cursor: pointer;
+
+        img {
+          width: 5.5rem;
+          aspect-ratio: 1;
+          object-fit: cover;
+          border: 2px solid $white;
+          outline: 2px solid $lightGray;
+          border-radius: 55px;
+          box-sizing: border-box;
+        }
+
+        p {
+          width: 100%;
+          color: $warmGray;
+          font-size: 1.1rem;
+          margin: 0;
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      &:not(:has(.mk-map-device)) {
+        display: none;
+      }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .mk-map-selected-device {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      gap: 15px;
+      position: absolute;
+      bottom: 5px;
+      left: 2.5%;
+      width: 95%;
+      background: $white;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      box-shadow: 2px 2px 10px gray;
+      z-index: 9999;
+      box-sizing: border-box;
+
+      img {
+        width: 5rem;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border: 2px solid $white;
+        outline: 2px solid $main;
+        border-radius: 55px;
+        box-sizing: border-box;
+      }
+
+      .mk-map-data-box {
+        width: 15%;
+        text-align: center;
+
+        p {
+          font-size: 1.3rem;
+          margin: 0;
+          direction: rtl;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:first-of-type {
+            font-family: iranSansBold, iranSans, sans-serif, Tahoma;
+            color: $secondary;
+          }
+        }
+      }
+
+      button {
+        width: fit-content !important;
+        padding: 1rem 3rem !important;
+        border-radius: 55px;
+        margin-left: auto;
+      }
+    }
+  }
+
+  .mk-navigation-root {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    gap: 10px;
+    box-shadow: 2px 2px 10px $lightGray;
+    z-index: 9999;
+    border: 2px solid $fadeGray;
+    border-bottom: none;
+
+    .mk-navigation-item {
+      width: calc(20% - 8px);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      gap: 7px;
+      padding: 10px 0;
 
       img {
-        width: 100%;
-        aspect-ratio: 1;
-        object-fit: cover;
-        border: 2px solid $white;
-        outline: 2px solid $lightGray;
-        border-radius: 55px;
+        width: 3rem;
+        filter: grayscale(1);
       }
 
       p {
-        font-size: 1.1rem;
-        color: $warmGray;
-        margin-bottom: 0;
+        color: $secondary;
+        margin: 0;
       }
-    }
 
-    &:not(:has(.mk-map-device)) {
-      display: none;
-    }
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  .mk-map-selected-device {
-    position: sticky;
-    bottom: 5px;
-    left: 2.5%;
-    width: 95%;
-    background: $white;
-    border-radius: 8px;
-    padding: 1rem 1.5rem;
-    box-shadow: 2px 2px 10px gray;
-    z-index: 9999;
-    box-sizing: border-box;
-
-    img {
-      width: 5rem;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border: 2px solid $white;
-      outline: 2px solid $main;
-      border-radius: 55px;
-      box-sizing: border-box;
+      &.active img {
+        filter: none;
+      }
     }
   }
 }

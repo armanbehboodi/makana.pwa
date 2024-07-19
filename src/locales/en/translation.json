@@ -16,6 +16,19 @@
   "login": {
     "account": "Create account"
   },
+  "map": {
+    "speed": "Speed",
+    "movement": "Movement",
+    "height": "Height",
+    "start": "Start"
+  },
+  "navigation": {
+    "map": "Map",
+    "history": "History",
+    "health": "Health",
+    "information": "Information",
+    "profile": "Profile"
+  },
   "error": {
     "default": "Oops! error happened. please try again later.",
     "User already registered": "User already registered.",

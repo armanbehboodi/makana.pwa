@@ -16,6 +16,19 @@
   "login": {
     "account": "ایجاد حساب کاربری"
   },
+  "map": {
+    "speed": "سرعت",
+    "movement": "جابه\u200Cجایی",
+    "height": "ارتفاع",
+    "start": "شروع"
+  },
+  "navigation": {
+    "map": "نقشه",
+    "history": "تاریخچه",
+    "health": "سلامت",
+    "information": "مشخصات",
+    "profile": "پروفایل"
+  },
   "error": {
     "default": "خطایی رخ داد! لطفا مجددا تلاش نمایید.",
     "User already registered": "کاربری با این مشخصات قبلا ثبت نام کرده است.",

@@ -1,6 +1,6 @@
 import {shallowEqual, useSelector} from "react-redux";
 import {RootState} from "./store/store";
-import {Register, OtpRegister, Login, Map} from "./screens/screens";
+import {Register, OtpRegister, Login, Main} from "./screens/screens";
 import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
 
@@ -14,7 +14,7 @@ const App = () => {
             {currentPage === "register" && <Register/>}
             {currentPage === "otp" && <OtpRegister/>}
             {currentPage === "login" && <Login/>}
-            {currentPage === "map" && <Map/>}
+            {currentPage === "main" && <Main/>}
         </I18nextProvider>
     );
 }

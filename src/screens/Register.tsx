@@ -5,9 +5,7 @@ import {pageSliceActions} from "../store/store";
 import Snackbar from '@mui/material/Snackbar';
 import Logo from "../assets/images/logoWithText.jpg";
 import {Validator} from "../helper/Validator";
-import {TextField} from "../components/ui/TextField";
-import {CheckField} from "../components/ui/CheckField";
-import {ButtonField} from "../components/ui/ButtonField";
+import {TextField, CheckField, ButtonField} from "../components/ui/uiComponents";
 import {staticData} from "../constants/staticData";
 import {p2e} from "../helper/LngConvertor";
 

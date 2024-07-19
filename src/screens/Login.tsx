@@ -4,8 +4,7 @@ import {useTranslation} from 'react-i18next';
 import Snackbar from "@mui/material/Snackbar";
 import {dataSliceActions, pageSliceActions} from "../store/store";
 import {staticData} from "../constants/staticData";
-import {TextField} from "../components/ui/TextField";
-import {ButtonField} from "../components/ui/ButtonField";
+import {TextField, ButtonField} from "../components/ui/uiComponents";
 import {setCookie} from "../helper/CookieHandler";
 import {p2e} from "../helper/LngConvertor";
 import {Validator} from "../helper/Validator";
@@ -54,24 +53,24 @@ export const Login: React.FC = () => {
                     }
                 });
 
-                const data = await response.json();
+                const loginData = await response.json();
 
                 if (response.ok) {
                     fetch(staticData.devices, {
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": `Bearer ${data['token']}`
+                            "Authorization": `Bearer ${loginData['token']}`
                         }
                     }).then((response) => {
                         return response.json();
-                    }).then((data) => {
-                        setCookie("mk-login-token", data['token'], 7);
-                        reduxDispatch(dataSliceActions.setDevices({devices: data.devices, page: "map"}));
+                    }).then((devicesData) => {
+                        setCookie("mk-login-token", loginData['token'], 7);
+                        reduxDispatch(dataSliceActions.setDevices({devices: devicesData.devices, page: "main"}));
                     }).catch(() => {
                         dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});
                     })
                 } else {
-                    dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
+                    dispatch({type: "snack", payload: {snack: true, message: t(`error.${loginData.message}`)}});
                 }
             } catch (error) {
                 dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});

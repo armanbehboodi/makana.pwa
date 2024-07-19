@@ -1,13 +1,16 @@
 import React, {useEffect, useReducer} from "react";
 import {shallowEqual, useSelector} from "react-redux";
+import {useTranslation} from 'react-i18next';
 import {RootState} from "../store/store";
-import {MapBox} from "../components/helper/MapBox";
+import {MapBox} from "../components/main/MapBox";
+import {ButtonField} from "../components/ui/ButtonField";
+import {getCookie} from "../helper/CookieHandler";
 import Default from "../assets/images/default.png";
 import {staticData} from "../constants/staticData";
-import {getCookie} from "../helper/CookieHandler";
 
 export const Map: React.FC = () => {
-    const {devices} = useSelector((state: RootState) => ({
+    const {t} = useTranslation(),
+        {devices} = useSelector((state: RootState) => ({
             devices: state.data.devices
         }), shallowEqual),
         token = getCookie("mk-login-token");
@@ -24,7 +27,7 @@ export const Map: React.FC = () => {
         reducer, initialState, initializer
     );
 
-    const getData = async (device:any) => {
+    const getData = async (device: any) => {
         const response = await fetch(staticData.devices + device.id + '/ws/gps', {
                 headers: {
                     "Content-Type": "application/json",
@@ -51,9 +54,7 @@ export const Map: React.FC = () => {
                                  // getData(device);
                              }}>
                             <img src={device['image_url'] || Default} className={!device['image_url'] ? 'default' : ''}
-                                 alt="device" onError={(e: any) => {
-                                e.currentTarget.src = Default
-                            }}/>
+                                 alt="device" onError={(e: any) => e.currentTarget.src = Default}/>
                             <p>{device.name}</p>
                         </div>
                     )
@@ -61,7 +62,21 @@ export const Map: React.FC = () => {
             </div>
             <MapBox lat={state.lat} lng={state.lng}/>
             <div className="mk-map-selected-device">
-                <img src={state.device['image_url'] || Default} alt="device"/>
+                <img src={state.device['image_url'] || Default} alt="device"
+                     onError={(e: any) => e.currentTarget.src = Default}/>
+                <div className="mk-map-data-box">
+                    <p>{t('map.speed')}</p>
+                    <p>{state.data['speed'] || "_"}</p>
+                </div>
+                <div className="mk-map-data-box">
+                    <p>{t('map.movement')}</p>
+                    <p>{state.data['movement'] || "_"}</p>
+                </div>
+                <div className="mk-map-data-box">
+                    <p>{t('map.height')}</p>
+                    <p>{state.data['height'] || "_"}</p>
+                </div>
+                <ButtonField label={t('map.start')} color="main" pressHandler={() => console.log(123)}/>
             </div>
         </div>
     );

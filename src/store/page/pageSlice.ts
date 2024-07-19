@@ -3,6 +3,7 @@ import dataSlice from "../data/dataSlice";
 
 interface IPage {
     page: string;
+    content: string,
     is_loading: boolean;
     extra_data?: any
 }
@@ -14,6 +15,7 @@ interface ISetPageAction {
 
 const initialState: IPage = {
     page: "register",
+    content: "map",
     is_loading: false,
     extra_data: null
 };
@@ -25,6 +27,9 @@ const pageSlice = createSlice({
         setPage: (state, action: PayloadAction<ISetPageAction>) => {
             state.page = action.payload.page;
             state.extra_data = action.payload.extra_data
+        },
+        setContent: (state, action: PayloadAction<string>) => {
+            state.content = action.payload;
         },
         switchLoading: (state, action: PayloadAction<boolean>) => {
             state.is_loading = action.payload;
