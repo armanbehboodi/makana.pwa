@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {useTranslation} from 'react-i18next';
 import { DatePicker, TimePicker } from "zaman";
-import Calendar from "../../assets/images/icons/calendar.svg";
 
 export const RangePicker:React.FC = () => {
 
@@ -17,13 +16,11 @@ export const RangePicker:React.FC = () => {
                 <span className="mk-range-picker-label">{t("date.start")}</span>
                 <DatePicker onChange={(e:any) => console.log(e.value)} />
                 <TimePicker onChange={(e) => console.log(e.hour, e.minute, e.timeConvention)}/>
-                <img src={Calendar} alt="calendar"/>
             </div>
             <div className="mk-range-picker-box end">
                 <span className="mk-range-picker-label">{t("date.end")}</span>
                 <DatePicker onChange={(e:any) => console.log(e.value)} />
                 <TimePicker onChange={(e) => console.log(e.hour, e.minute, e.timeConvention)}/>
-                <img src={Calendar} alt="calendar"/>
             </div>
         </div>
     )
