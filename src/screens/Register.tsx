@@ -82,10 +82,10 @@ export const Register:React.FC = () => {
                 <TextField label={t('register.repeat')} type="password" ref={refs.repeat} error={state.error.repeat}/>
                 <CheckField label={t('register.faq')}
                             changeHandler={(isChecked: boolean) => dispatch({type: "faq", payload: isChecked})}/>
-                <ButtonField label={t('register.account')} icon="account" color="gray"
-                             pressHandler={() => reduxDispatch(pageSliceActions.setPage({page: "login"}))}/>
                 <ButtonField label={t('register.confirm')} icon="confirm" color="main" pressHandler={registerHandler}
                              isDisabled={!state.faq}/>
+                <ButtonField label={t('register.account')} icon="account" color="gray"
+                             pressHandler={() => reduxDispatch(pageSliceActions.setPage({page: "login"}))}/>
             </div>
             <Snackbar
                 open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}

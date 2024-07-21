@@ -293,6 +293,7 @@ body {
     position: relative;
 
     input {
+      width: 110px;
       border: none;
       background-color: #f3f3f3;
       padding: 10px 0;
@@ -305,6 +306,7 @@ body {
     img {
       width: 25px;
       margin: 0 20px 0 auto;
+      filter: opacity(0.3);
     }
 
     span.mk-range-picker-label {
@@ -323,4 +325,22 @@ body {
 
 .rdp__modal {
   z-index: 9999 !important;
+}
+
+.css-137m4ck {
+  border-radius: 12px !important;
+
+  .css-7qlbje {
+    right: -8px;
+  }
+}
+
+@media screen and (min-width: 468px) {
+  .css-1m8qzkt {
+    right: unset !important;
+    top: 50% !important;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
 }
