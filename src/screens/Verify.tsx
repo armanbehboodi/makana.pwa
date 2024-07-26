@@ -1,19 +1,20 @@
 import React, {useEffect, useReducer} from "react";
-import {shallowEqual, useDispatch, useSelector} from "react-redux";
+import {shallowEqual, useSelector} from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import OtpInput from 'react-otp-input';
 import Logo from "../assets/images/logoWithText.jpg";
 import {ButtonField} from "../components/ui/ButtonField";
-import {pageSliceActions, RootState} from "../store/store";
+import {RootState} from "../store/store";
 import {staticData} from "../constants/staticData";
 import Snackbar from "@mui/material/Snackbar";
 import {p2e} from "../helper/LngConvertor";
 
-export const OtpRegister:React.FC = () => {
+export const Verify:React.FC = () => {
     const {t} = useTranslation(),
-        reduxDispatch = useDispatch(),
+        navigate = useNavigate(),
         {mobile} = useSelector((state: RootState) => ({
-            mobile: state.page.extra_data
+            mobile: state.data.mobile
         }), shallowEqual);
 
     const initializer = (initialState: any) => initialState,
@@ -71,7 +72,7 @@ export const OtpRegister:React.FC = () => {
             if (response.ok) {
                 dispatch({type: "snack", payload: {snack: true, message: t('otp.success'), type: "success"}});
                 setTimeout(() => {
-                    reduxDispatch(pageSliceActions.setPage({page: "login"}));
+                    navigate("/login");
                 },5000);
             } else {
                 dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
@@ -100,7 +101,7 @@ export const OtpRegister:React.FC = () => {
                           onChange={(value: string) => dispatch({type: "otp", payload: value})}
                           numInputs={6} renderInput={(props) => <input {...props} />}/>
                 <ButtonField label={t('otp.edit')} icon="edit" color="main"
-                             pressHandler={() => reduxDispatch(pageSliceActions.setPage({page: "register"}))}/>
+                             pressHandler={() => navigate("/register")}/>
                 <ButtonField label={t('otp.resend')} icon="again" color="main" pressHandler={refreshCodeHandler}
                              isDisabled={!state.resend} countDownSeconds={!state.resend ? 120 : null}
                              finishCountDown={() => dispatch({type: "resend", payload: true})}/>

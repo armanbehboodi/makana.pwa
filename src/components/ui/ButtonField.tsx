@@ -13,7 +13,8 @@ interface IProps {
     pressHandler: () => void,
     isDisabled?: boolean,
     countDownSeconds?: null | number,
-    finishCountDown?: () => void
+    finishCountDown?: () => void,
+    className?: string
 }
 
 export const ButtonField: React.FC<IProps> = ({
@@ -23,7 +24,8 @@ export const ButtonField: React.FC<IProps> = ({
                                                   isDisabled,
                                                   countDownSeconds,
                                                   pressHandler,
-                                                  finishCountDown
+                                                  finishCountDown,
+                                                  className
                                               }) => {
 
     let buttonIcon;
@@ -52,7 +54,7 @@ export const ButtonField: React.FC<IProps> = ({
     }
 
     return (
-        <Button variant="contained" startIcon={buttonIcon} data-color={color}
+        <Button variant="contained" startIcon={buttonIcon} data-color={color} className={className}
                 data-status={isDisabled ? 'disabled' : 'enabled'} onClick={clickHandler}>
             {label} {countDownSeconds ? <CountDown seconds={countDownSeconds} finish={finishCountDown!}/> : null}
         </Button>

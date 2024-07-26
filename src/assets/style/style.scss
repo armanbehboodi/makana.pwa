@@ -8,6 +8,10 @@ body {
   font-family: iranSans, sans-serif, Tahoma;
   margin: 0;
   padding: 0;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 /* REGISTER */
@@ -136,6 +140,13 @@ body {
         }
       }
 
+      .mk-map-device.active {
+        img {
+          border: 2px solid $white;
+          outline: 2px solid $main;
+        }
+      }
+
       &:not(:has(.mk-map-device)) {
         display: none;
       }
@@ -161,7 +172,7 @@ body {
       z-index: 9999;
       box-sizing: border-box;
 
-      img {
+      img.mk-map-selected-device-img {
         width: 5rem;
         aspect-ratio: 1;
         object-fit: cover;
@@ -173,12 +184,13 @@ body {
 
       .mk-map-data-box {
         width: 15%;
+        min-width: 68px;
         text-align: center;
 
         p {
           font-size: 1.3rem;
           margin: 0;
-          direction: rtl;
+          direction: ltr;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -190,11 +202,29 @@ body {
         }
       }
 
-      button {
-        width: fit-content !important;
-        padding: 1rem 3rem !important;
-        border-radius: 55px;
+      .mk-map-satellites {
+        text-align: center;
         margin-left: auto;
+        margin-right: 0.5rem;
+        position: relative;
+
+        img {
+          width: 3rem;
+          margin-top: 0.5rem;
+        }
+
+        span {
+          position: absolute;
+          top: -2px;
+          right: -5px;
+          background-color: $error;
+          color: $white;
+          font-size: 1.15rem;
+          border-radius: 55px;
+          width: 18px;
+          aspect-ratio: 1;
+          padding: 1px;
+        }
       }
     }
   }
@@ -217,14 +247,19 @@ body {
       gap: 7px;
       padding: 10px 0;
 
-      img {
-        width: 3rem;
-        filter: grayscale(1);
-      }
+      a {
+        text-align: center;
 
-      p {
-        color: $secondary;
-        margin: 0;
+        img {
+          width: 3rem;
+          filter: grayscale(1);
+        }
+
+        p {
+          color: $secondary;
+          margin: 0;
+          text-align: center;
+        }
       }
 
       &.active {
@@ -240,7 +275,7 @@ body {
   }
 }
 
-/* MAP */
+/* MAP LIBRARY (LEAFLET STYLES CUSTOMIZE) */
 
 .leaflet-popup-content {
   direction: rtl;
@@ -250,6 +285,37 @@ body {
   font-size: 1rem;
   padding: 10px 25px 10px 0;
   margin: 0;
+}
+
+.mk-map-current-location {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  background: $white;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1000;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  box-shadow: none;
+  box-sizing: border-box;
+  background-clip: padding-box;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.leaflet-control-container {
+  .leaflet-top.leaflet-left {
+    right: 10px;
+    left: auto;
+    top: 40px;
+  }
 }
 
 /* RANGE PICKER */
@@ -318,8 +384,17 @@ body {
     }
   }
 
+  button {
+    border-radius: 55px;
+  }
+
+  button.disabled {
+    pointer-events: none;
+    background-color: $lightGray !important;
+  }
+
   &.open {
-    height: 200px;
+    height: 260px;
   }
 }
 
@@ -335,12 +410,27 @@ body {
   }
 }
 
-@media screen and (min-width: 468px) {
+body:has(.rdp__modal) {
+  overflow-y: hidden !important;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 500px) {
   .css-1m8qzkt {
     right: unset !important;
     top: 50% !important;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
+  }
+
+  .mk-main-root .mk-map-root .mk-map-devices-list {
+    -ms-overflow-style: auto;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      display: block;
+    }
   }
 }

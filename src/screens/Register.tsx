@@ -1,7 +1,8 @@
 import React, {useRef, useReducer} from "react";
 import {useDispatch} from "react-redux";
+import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {pageSliceActions} from "../store/store";
+import {dataSliceActions} from "../store/store";
 import Snackbar from '@mui/material/Snackbar';
 import Logo from "../assets/images/logoWithText.jpg";
 import {Validator} from "../helper/Validator";
@@ -9,13 +10,14 @@ import {TextField, CheckField, ButtonField} from "../components/ui/uiComponents"
 import {staticData} from "../constants/staticData";
 import {p2e} from "../helper/LngConvertor";
 
-export const Register:React.FC = () => {
+export const Register: React.FC = () => {
     const {t} = useTranslation(),
+        navigate = useNavigate(),
         reduxDispatch = useDispatch(),
         refs = {
-            mobile: useRef<HTMLInputElement>(null),
-            password: useRef<HTMLInputElement>(null),
-            repeat: useRef<HTMLInputElement>(null),
+            mobile: useRef<HTMLInputElement | null>(null),
+            password: useRef<HTMLInputElement | null>(null),
+            repeat: useRef<HTMLInputElement | null>(null),
         };
 
     const initializer = (initialState: any) => initialState,
@@ -39,10 +41,10 @@ export const Register:React.FC = () => {
             password = p2e(refs.password.current!.value),
             repeat = p2e(refs.repeat.current!.value),
             error = {
-            mobile: !Validator("mobile", mobile),
-            password: !Validator("password", password),
-            repeat: password !== repeat,
-        };
+                mobile: !Validator("mobile", mobile),
+                password: !Validator("password", password),
+                repeat: password !== repeat,
+            };
 
         if (!Object.values(error).some((item: boolean) => item)) {
             try {
@@ -60,7 +62,8 @@ export const Register:React.FC = () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    reduxDispatch(pageSliceActions.setPage({page: "otp", extra_data: refs.mobile.current!.value}));
+                    reduxDispatch(dataSliceActions.setMobile(refs.mobile.current!.value));
+                    navigate("/verify");
                 } else {
                     dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
                 }
@@ -85,7 +88,7 @@ export const Register:React.FC = () => {
                 <ButtonField label={t('register.confirm')} icon="confirm" color="main" pressHandler={registerHandler}
                              isDisabled={!state.faq}/>
                 <ButtonField label={t('register.account')} icon="account" color="gray"
-                             pressHandler={() => reduxDispatch(pageSliceActions.setPage({page: "login"}))}/>
+                             pressHandler={() => navigate("/login")}/>
             </div>
             <Snackbar
                 open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}

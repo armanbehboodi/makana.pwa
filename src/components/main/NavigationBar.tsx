@@ -1,7 +1,6 @@
 import React from "react";
+import { Link, useLocation } from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {shallowEqual, useSelector, useDispatch} from "react-redux";
-import {pageSliceActions, RootState} from "../../store/store";
 import Map from "../../assets/images/icons/map.svg";
 import History from "../../assets/images/icons/history.svg";
 import Health from "../../assets/images/icons/health.svg";
@@ -17,35 +16,32 @@ interface INavigationList {
 export const NavigationBar: React.FC = () => {
 
     const {t} = useTranslation(),
-        dispatch = useDispatch(),
-        {currentContent} = useSelector((state: RootState) => ({
-            currentContent: state.page.content
-        }), shallowEqual),
+        location = useLocation(),
         navigationList: INavigationList[] = [
         {
             label: t("navigation.map"),
             icon: Map,
-            target: "map"
+            target: "/"
         },
         {
             label: t("navigation.history"),
             icon: History,
-            target: "history"
+            target: "/history"
         },
         {
             label: t("navigation.health"),
             icon: Health,
-            target: "health"
+            target: "/health"
         },
         {
             label: t("navigation.information"),
             icon: Paw,
-            target: "information"
+            target: "/information"
         },
         {
             label: t("navigation.profile"),
             icon: Profile,
-            target: "profile"
+            target: "/profile"
         }
     ];
 
@@ -53,10 +49,11 @@ export const NavigationBar: React.FC = () => {
         <div className="mk-navigation-root">
             {navigationList.map((item: INavigationList, index: number) => {
                 return (
-                    <div className={`mk-navigation-item ${item.target === currentContent ? "active" : ""}`} key={index}
-                    onClick={() => dispatch(pageSliceActions.setContent(item.target))}>
-                        <img src={item.icon} alt="nav"/>
-                        <p>{item.label}</p>
+                    <div className={`mk-navigation-item ${item.target === location.pathname ? "active" : ""}`} key={index}>
+                        <Link to={item.target}>
+                            <img src={item.icon} alt="nav"/>
+                            <p>{item.label}</p>
+                        </Link>
                     </div>
                 )
             })}

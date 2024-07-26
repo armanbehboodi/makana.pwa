@@ -1,8 +1,9 @@
 import React, {useReducer, useRef} from "react";
 import {useDispatch} from "react-redux";
+import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import Snackbar from "@mui/material/Snackbar";
-import {dataSliceActions, pageSliceActions} from "../store/store";
+import {dataSliceActions} from "../store/store";
 import {staticData} from "../constants/staticData";
 import {TextField, ButtonField} from "../components/ui/uiComponents";
 import {setCookie} from "../helper/CookieHandler";
@@ -12,6 +13,7 @@ import Logo from "../assets/images/logoWithText.jpg";
 
 export const Login: React.FC = () => {
     const {t} = useTranslation(),
+        navigate = useNavigate(),
         reduxDispatch = useDispatch(),
         refs = {
             mobile: useRef<HTMLInputElement | null>(null),
@@ -64,8 +66,27 @@ export const Login: React.FC = () => {
                     }).then((response) => {
                         return response.json();
                     }).then((devicesData) => {
+                        const filteredDevices = devicesData.devices.filter((device:any) => device.state === "Active");
+
                         setCookie("mk-login-token", loginData['token'], 7);
-                        reduxDispatch(dataSliceActions.setDevices({devices: devicesData.devices, page: "main"}));
+                        reduxDispatch(dataSliceActions.setDevices({devices: filteredDevices}));
+
+                        // activating the first device (default selected device)
+                        fetch(staticData.devices + filteredDevices[0].id + "/verb", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                status: "open"
+                            }),
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${loginData['token']}`
+                            }
+                        })
+                            .then((res) => {
+                                if (res.ok) {
+                                    navigate("/");
+                                } else dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});
+                            })
                     }).catch(() => {
                         dispatch({type: "snack", payload: {snack: true, message: t('error.default')}});
                     })
@@ -80,10 +101,6 @@ export const Login: React.FC = () => {
         dispatch({type: "error", payload: error});
     }
 
-    const switchToRegisterHandler = () => {
-        reduxDispatch(pageSliceActions.setPage({page: "register"}));
-    }
-
     return (
         <div className="mk-register-root">
             <div className="mk-register-container">
@@ -92,7 +109,7 @@ export const Login: React.FC = () => {
                 <TextField label={t('register.password')} type="password" ref={refs.password}
                            error={state.error.password}/>
                 <ButtonField label={t('login.account')} icon="account" color="gray"
-                             pressHandler={switchToRegisterHandler}/>
+                             pressHandler={() => navigate("/register")}/>
                 <ButtonField label={t('register.confirm')} icon="confirm" color="main" pressHandler={loginHandler}/>
             </div>
             <Snackbar

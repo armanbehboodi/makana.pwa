@@ -1,110 +1,84 @@
-import React, {useEffect, useReducer} from "react";
-import {shallowEqual, useSelector} from "react-redux";
+import React, {useState} from "react";
+import {shallowEqual, useSelector, useDispatch} from "react-redux";
+import {useQuery} from 'react-query';
 import {useTranslation} from 'react-i18next';
-import {RootState} from "../../store/store";
-import {MapBox} from "../../components/main/MapBox";
-import {ButtonField} from "../../components/ui/ButtonField";
+import {dataSliceActions, RootState} from "../../store/store";
+import {DevicesList, MapBox} from "../../components/main/mainComponents";
 import {getCookie} from "../../helper/CookieHandler";
-import Default from "../../assets/images/default.png";
+import {getDistance, getSpeed} from "../../helper/Calculator";
 import {staticData} from "../../constants/staticData";
+import Default from "../../assets/images/default.png";
+import Satellite from "../../assets/images/icons/satellite.svg";
 
 export const Map: React.FC = () => {
+
     const {t} = useTranslation(),
-        {devices} = useSelector((state: RootState) => ({
-            devices: state.data.devices
+        {devices, firstTrackedData} = useSelector((state: RootState) => ({
+            devices: state.data.devices,
+            firstTrackedData: state.data.firstTrackedData
         }), shallowEqual),
+        dispatch = useDispatch(),
+        [device, setDevice] = useState(devices[7] || {}),
         token = getCookie("mk-login-token");
 
-    const initializer = (initialState: any) => initialState,
-        initialState = {
-            lat: '35.69980665825626',
-            lng: '51.33805755767131',
-            device: devices[0] || {},
-            data: {}
-        };
+    const fetchData = async () => {
+        const response = await fetch(staticData.devices + device.id + '/ws/GPS', {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
 
-    const [state, dispatch] = useReducer(
-        reducer, initialState, initializer
-    );
+        if (response.ok) return response.json();
+    };
 
-    const getData = async (device: any) => {
-        const response = await fetch(staticData.devices + device.id + '/ws/gps', {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            }),
-            data = await response.json();
+    const {data} = useQuery(
+        'fetchData',
+        fetchData,
+        {
+            refetchInterval: 4000, // Poll every 4 seconds
+            refetchIntervalInBackground: true, // Continue polling even when window is not in focus
+        }
+    ), trackerData = data ? data.data : null;
 
-        console.log(data);
+    // save first tracked data for calculating the distance
+    if (!firstTrackedData && trackerData && trackerData.length) {
+        dispatch(dataSliceActions.setTrackedData(trackerData[0]));
     }
 
-    useEffect(() => {
-        getData(devices[0]);
-    }, []);
+    const lastData = trackerData && trackerData.length ? trackerData[trackerData.length - 1] : null;
 
     return (
         <div className="mk-map-root">
-            <div className="mk-map-devices-list">
-                {devices.map((device, index: number) => {
-                    return (
-                        <div className="mk-map-device" key={index}
-                             onClick={() => {
-                                 dispatch({type: "set_device", payload: device})
-                                 // getData(device);
-                             }}>
-                            <img src={device['image_url'] || Default} className={!device['image_url'] ? 'default' : ''}
-                                 alt="device" onError={(e: any) => e.currentTarget.src = Default}/>
-                            <p>{device.name}</p>
-                        </div>
-                    )
-                })}
-            </div>
-            <MapBox lat={state.lat} lng={state.lng} device={state.device}/>
+            <DevicesList onClick={(device) => setDevice(device)}/>
+            <MapBox lat={lastData ? lastData.latitude : '35.69980665825626'}
+                    lng={lastData ? lastData.longitude : '51.33805755767131'}
+                    device={device}/>
             <div className="mk-map-selected-device">
-                <img src={state.device['image_url'] || Default} alt="device"
+                <img src={device['image_url'] || Default} alt="device" className="mk-map-selected-device-img"
                      onError={(e: any) => e.currentTarget.src = Default}/>
                 <div className="mk-map-data-box">
                     <p>{t('map.speed')}</p>
-                    <p>{state.data['speed'] || "_"}</p>
+                    <p>{trackerData && trackerData.length ? `${getSpeed(trackerData)} m/s` : "_"}</p>
                 </div>
                 <div className="mk-map-data-box">
                     <p>{t('map.movement')}</p>
-                    <p>{state.data['movement'] || "_"}</p>
+                    <p>{firstTrackedData && lastData ? `${getDistance({
+                        lat1: Number(firstTrackedData.latitude),
+                        lon1: Number(firstTrackedData.longitude),
+                        lat2: Number(lastData.latitude),
+                        lon2: Number(lastData.longitude),
+                    })} m` : "_"}</p>
                 </div>
                 <div className="mk-map-data-box">
                     <p>{t('map.height')}</p>
-                    <p>{state.data['height'] || "_"}</p>
+                    <p>{lastData ? lastData['sea_level'] + " m" : "_"}</p>
                 </div>
-                <ButtonField label={t('map.start')} color="main" pressHandler={() => console.log(123)}/>
+                <div className="mk-map-satellites">
+                    <img src={Satellite} alt="satellite"/>
+                    <span>{lastData ? lastData['number_of_satellites'] : 1}</span>
+                </div>
             </div>
         </div>
     );
-}
-
-function reducer(state: any, action: any) {
-    switch (action.type) {
-        case "set_coordinate":
-            return {
-                ...state,
-                lat: action.payload.lat,
-                lng: action.payload.lng
-            };
-        case "set_device":
-            return {
-                ...state,
-                device: action.payload
-            };
-        case "set_data":
-            return {
-                ...state,
-                data: action.payload
-            }
-        case "set_complete_data":
-            return {
-                ...state,
-                device: action.payload.device,
-                data: action.payload.data
-            }
-    }
 }

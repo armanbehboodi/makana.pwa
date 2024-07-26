@@ -1,6 +1,6 @@
 import {Register} from "./Register";
-import {OtpRegister} from "./OtpRegister";
+import {Verify} from "./Verify";
 import {Login} from "./Login";
 import {Main} from "./Main";
 
-export {Register, OtpRegister, Login, Main};
+export {Register, Verify, Login, Main};

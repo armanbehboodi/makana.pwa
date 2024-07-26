@@ -1,20 +1,22 @@
-import {shallowEqual, useSelector} from "react-redux";
-import {RootState} from "./store/store";
-import {Register, OtpRegister, Login, Main} from "./screens/screens";
+import {Routes, Route} from 'react-router-dom';
 import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
+import {Register, Verify, Login, Main} from "./screens/screens";
+import {Map, History} from "./screens/contents/contents";
+import ProtectedRoute from "./components/helper/ProtectedRoute";
 
 const App = () => {
-    const {currentPage} = useSelector((state: RootState) => ({
-        currentPage: state.page.page
-    }), shallowEqual);
-
     return (
         <I18nextProvider i18n={i18n}>
-            {currentPage === "register" && <Register/>}
-            {currentPage === "otp" && <OtpRegister/>}
-            {currentPage === "login" && <Login/>}
-            {currentPage === "main" && <Main/>}
+            <Routes>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Register/>}/>
+                <Route path="/verify" element={<Verify/>}/>
+                <Route element={<ProtectedRoute component={<Main />} />}>
+                    <Route path="/" element={<Map />} />
+                    <Route path="/history" element={<History />} />
+                </Route>
+            </Routes>
         </I18nextProvider>
     );
 }

@@ -1,15 +1,13 @@
 import React, {useReducer} from "react";
-import Default from "../../assets/images/default.png";
-import {MapBox} from "../../components/main/MapBox";
 import {shallowEqual, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {RangePicker} from "../../components/main/RangePicker";
+import {RangePicker, DevicesList, MapBox} from "../../components/main/mainComponents";
 
-export const History:React.FC = () => {
+export const History: React.FC = () => {
 
     const {devices} = useSelector((state: RootState) => ({
-            devices: state.data.devices
-        }), shallowEqual);
+        devices: state.data.devices
+    }), shallowEqual);
 
     const initializer = (initialState: any) => initialState,
         initialState = {
@@ -24,18 +22,7 @@ export const History:React.FC = () => {
 
     return (
         <div className="mk-map-root">
-            <div className="mk-map-devices-list">
-                {devices.map((device, index: number) => {
-                    return (
-                        <div className="mk-map-device" key={index}
-                             onClick={() => dispatch({type: "set_device", payload: device})}>
-                            <img src={device['image_url'] || Default} className={!device['image_url'] ? 'default' : ''}
-                                 alt="device" onError={(e: any) => e.currentTarget.src = Default}/>
-                            <p>{device.name}</p>
-                        </div>
-                    )
-                })}
-            </div>
+            <DevicesList onClick={(device) => dispatch({type: "set_device", payload: device})}/>
             <MapBox lat={state.lat} lng={state.lng} device={state.device}/>
             <RangePicker/>
         </div>
