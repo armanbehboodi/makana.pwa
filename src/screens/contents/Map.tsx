@@ -68,7 +68,7 @@ export const Map: React.FC = () => {
                         lon1: Number(firstTrackedData.longitude),
                         lat2: Number(lastData.latitude),
                         lon2: Number(lastData.longitude),
-                    })} m` : "_"}</p>
+                    }).toFixed(1)} m` : "_"}</p>
                 </div>
                 <div className="mk-map-data-box">
                     <p>{t('map.height')}</p>
