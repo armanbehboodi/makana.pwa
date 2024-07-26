@@ -11,8 +11,8 @@ export const History: React.FC = () => {
 
     const initializer = (initialState: any) => initialState,
         initialState = {
-            lat: '35.69980665825626',
-            lng: '51.33805755767131',
+            polyline: false,
+            history: [],
             device: devices[0] || {}
         };
 
@@ -20,22 +20,35 @@ export const History: React.FC = () => {
         reducer, initialState, initializer
     );
 
+    const historyHandler = (data: any) => {
+        let history:any = [];
+
+        if (data.length > 0) {
+            data.map((item:any) => {
+                history.push([Number(item.latitude),Number(item.longitude)])
+            })
+        }
+
+        dispatch({type: "set_polyline", payload: history});
+    }
+
     return (
         <div className="mk-map-root">
             <DevicesList onClick={(device) => dispatch({type: "set_device", payload: device})}/>
-            <MapBox lat={state.lat} lng={state.lng} device={state.device}/>
-            <RangePicker/>
+            <MapBox lat={'35.69980665825626'} lng={'51.33805755767131'} device={state.device} history={state.history}
+                    polyline={state.polyline}/>
+            <RangePicker onSet={(data) => historyHandler(data)} device={state.device}/>
         </div>
     )
 }
 
 function reducer(state: any, action: any) {
     switch (action.type) {
-        case "set_coordinate":
+        case "set_polyline":
             return {
                 ...state,
-                lat: action.payload.lat,
-                lng: action.payload.lng
+                polyline: true,
+                history: action.payload
             };
         case "set_device":
             return {

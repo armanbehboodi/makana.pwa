@@ -3,17 +3,26 @@ import {useTranslation} from 'react-i18next';
 import {DatePicker, TimePicker} from "zaman";
 import Calendar from "../../assets/images/icons/calendar.svg";
 import {ButtonField} from "../ui/ButtonField";
+import {getTimeStamp} from "../../helper/Calculator";
+import {staticData} from "../../constants/staticData";
+import {getCookie} from "../../helper/CookieHandler";
 
-export const RangePicker: React.FC = () => {
+interface IProps {
+    device: any,
+    onSet: (data:any) => void
+}
+
+export const RangePicker: React.FC<IProps> = ({device, onSet}) => {
 
     const {t} = useTranslation(),
         [trigger, setTrigger] = useState(false),
         [startDate, setStartDate]: any = useState(null),
         [startTime, setStartTime]: any = useState(null),
         [endDate, setEndDate]: any = useState(null),
-        [endTime, setEndTime]: any = useState(null);
+        [endTime, setEndTime]: any = useState(null),
+        token = getCookie("mk-login-token");
 
-    const dateHandler = (type:string, value:string) => {
+    const dateHandler = (type: string, value: string) => {
         const modal: any = document.querySelector('.rdp__modal') || document.querySelector('.css-1m8qzkt');
 
         switch (type) {
@@ -36,6 +45,18 @@ export const RangePicker: React.FC = () => {
         }
     }
 
+    const pressHandler = async () => {
+        const response = await fetch(staticData.devices + device.id + '/archive/gps?end_time=' + getTimeStamp(endDate, endTime) + '&start_time=' + getTimeStamp(startDate, startTime), {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        }), result = await response.json();
+
+        setTrigger(false);
+        onSet(result['data']);
+    }
+
     return (
         <div className={`mk-range-picker-root ${trigger ? "open" : "close"}`}>
             <div className="mk-range-picker-trigger" onClick={() => setTrigger(!trigger)}>
@@ -54,7 +75,7 @@ export const RangePicker: React.FC = () => {
                 <img src={Calendar} alt="calendar"/>
             </div>
             <ButtonField className={[startDate, startTime, endDate, endTime].some(item => !item) ? "disabled" : ""}
-                         label={t("history.check")} color={"main"} pressHandler={() => console.log(123)}/>
+                         label={t("history.check")} color={"main"} pressHandler={pressHandler}/>
         </div>
     )
 }

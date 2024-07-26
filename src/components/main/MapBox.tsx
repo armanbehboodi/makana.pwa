@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useTranslation} from 'react-i18next';
-import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
+import {MapContainer, TileLayer, Marker, Popup, useMapEvents, Polyline, useMap} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {LocationButton, TrackLocation} from "../helper/LiveLocation";
@@ -9,17 +9,19 @@ import Pin from "../../assets/images/icons/pin.svg";
 interface IProps {
     lat: string,
     lng: string,
-    device?: any | number
+    device?: any | number,
+    polyline?: boolean,
+    history?: any
 }
 
 // disabling focus on device location when user tries to check the map (dragging)
-const MapEventHandler:any = ({onDragStart}: any) => {
+const MapEventHandler: any = ({onDragStart}: any) => {
     useMapEvents({
         dragstart: () => onDragStart()
     });
 };
 
-export const MapBox: React.FC<IProps> = ({lat, lng, device}) => {
+export const MapBox: React.FC<IProps> = ({lat, lng, device, polyline, history}) => {
 
     const {t} = useTranslation(),
         [shouldFocus, setShouldFocus] = useState(true),
@@ -31,15 +33,39 @@ export const MapBox: React.FC<IProps> = ({lat, lng, device}) => {
             shadowSize: [41, 41] // size of the shadow
         }), Lat = Number(lat), Lng = Number(lng);
 
+    const FitBoundsToPolyline = () => {
+        const map = useMap();
+
+        useEffect(() => {
+            if (map && history.length > 0) {
+                const bounds = L.latLngBounds(history);
+                map.fitBounds(bounds);
+            }
+        }, [map, history]);
+
+        return null;
+    };
+
     return (
         <MapContainer center={[Lat, Lng]} zoom={18} style={{height: "100vh", width: "100%"}}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+            {!polyline &&
             <Marker position={[Lat, Lng]} icon={customIcon}>
                 <Popup>{device ? `${device.name} ${t('map.popup')}` : t('map.popupDefault')}</Popup>
             </Marker>
-            <LocationButton lat={lat} lng={lng}/>
-            <TrackLocation lat={lat} lng={lng} shouldFocus={shouldFocus}/>
-            <MapEventHandler onDragStart={() => setShouldFocus(false)}/>
+            }
+            {polyline ?
+                <>
+                    <Polyline positions={history} color="#0a81d7"/>
+                    <FitBoundsToPolyline/>
+                </>
+                :
+                <>
+                    <LocationButton lat={lat} lng={lng}/>
+                    <TrackLocation lat={lat} lng={lng} shouldFocus={shouldFocus}/>
+                    <MapEventHandler onDragStart={() => setShouldFocus(false)}/>
+                </>
+            }
         </MapContainer>
     );
 }

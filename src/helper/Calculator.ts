@@ -37,11 +37,12 @@ const getSpeed = (data: any[]): string => {
 };
 
 const getTimeStamp = (dateStr: string, timeStr: string) => {
-    const [day, month, year] = dateStr.split('/').map(Number),
-        [hours, minutes] = timeStr.split(':').map(Number),
-        date = new Date(year, month - 1, day, hours, minutes);
+    const date = dateStr.split("/").reverse().map(item => item.toString().padStart(2, '0')),
+        time = timeStr.split(":").map(item => item.toString().padStart(2, '0'));
 
-    return date.getTime();
+    time.push("00");
+
+    return `${date[0]}${date[2]}${date[1]}${time.join("")}`;
 };
 
 export {getDistance, getSpeed, getTimeStamp};
