@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useTranslation} from 'react-i18next';
 import {DatePicker, TimePicker} from "zaman";
+import Slider from '@mui/material/Slider';
 import Calendar from "../../assets/images/icons/calendar.svg";
 import {ButtonField} from "../ui/ButtonField";
 import {getTimeStamp} from "../../helper/Calculator";
@@ -9,10 +10,12 @@ import {getCookie} from "../../helper/CookieHandler";
 
 interface IProps {
     device: any,
-    onSet: (data:any) => void
+    onSet: (data: any) => void,
+    isDisabled?: boolean,
+    onChangeRange: (data: number) => void
 }
 
-export const RangePicker: React.FC<IProps> = ({device, onSet}) => {
+export const RangePicker: React.FC<IProps> = ({device, onSet, isDisabled, onChangeRange}) => {
 
     const {t} = useTranslation(),
         [trigger, setTrigger] = useState(false),
@@ -57,10 +60,21 @@ export const RangePicker: React.FC<IProps> = ({device, onSet}) => {
         onSet(result['data']);
     }
 
+    let timer:any;
+    const changeRangeHandler = (range: number) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            onChangeRange(range);
+        }, 500);
+    }
+
     return (
         <div className={`mk-range-picker-root ${trigger ? "open" : "close"}`}>
             <div className="mk-range-picker-trigger" onClick={() => setTrigger(!trigger)}>
                 <span/>
+            </div>
+            <div className="mk-range-picker-range">
+                <Slider disabled={isDisabled} size="small" defaultValue={0} aria-label="Small" onChange={(e: any) => changeRangeHandler(e.target.value)}/>
             </div>
             <div className="mk-range-picker-box start">
                 <span className="mk-range-picker-label">{t("date.start")}</span>
