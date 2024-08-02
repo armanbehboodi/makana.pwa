@@ -5,10 +5,8 @@ import {useTranslation} from 'react-i18next';
 import Snackbar from "@mui/material/Snackbar";
 import {dataSliceActions} from "../store/store";
 import {staticData} from "../constants/staticData";
-import {TextField, ButtonField} from "../components/ui/uiComponents";
-import {setCookie} from "../helper/CookieHandler";
-import {p2e} from "../helper/LngConvertor";
-import {Validator} from "../helper/Validator";
+import {TextField, ButtonField} from "../components/components";
+import {setCookie, p2e, Validator} from "../helper/helper";
 import Logo from "../assets/images/logoWithText.jpg";
 
 export const Login: React.FC = () => {
@@ -68,7 +66,7 @@ export const Login: React.FC = () => {
                     }).then((devicesData) => {
                         const filteredDevices = devicesData.devices.filter((device:any) => device.state === "Active");
 
-                        setCookie("mk-login-token", loginData['token'], 7);
+                        setCookie("mk-login-token", loginData['token'], 3);
                         reduxDispatch(dataSliceActions.setDevices({devices: filteredDevices}));
 
                         // activating the first device (default selected device)

@@ -2,13 +2,12 @@ import React, {useRef, useReducer} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {dataSliceActions} from "../store/store";
 import Snackbar from '@mui/material/Snackbar';
-import Logo from "../assets/images/logoWithText.jpg";
-import {Validator} from "../helper/Validator";
-import {TextField, CheckField, ButtonField} from "../components/ui/uiComponents";
+import {dataSliceActions} from "../store/store";
 import {staticData} from "../constants/staticData";
-import {p2e} from "../helper/LngConvertor";
+import {Validator, p2e} from "../helper/helper";
+import {TextField, CheckField, ButtonField} from "../components/components";
+import Logo from "../assets/images/logoWithText.jpg";
 
 export const Register: React.FC = () => {
     const {t} = useTranslation(),

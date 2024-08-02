@@ -18,25 +18,33 @@
   },
   "map": {
     "speed": "Speed",
-    "movement": "Movement",
+    "distance": "Distance",
     "height": "Height",
     "popup": "is here!",
     "popupDefault": "Device location",
-    "satellite": "Number of satellites : "
+    "satellite": "Number of satellites : ",
+    "noData": "There is no data to show!"
   },
   "navigation": {
     "map": "Map",
     "history": "History",
     "health": "Health",
     "information": "Information",
-    "profile": "Profile"
+    "profile": "Profile",
+    "setting": "Setting"
   },
   "date": {
     "start": "Start date",
     "end": "End date"
   },
   "history": {
-    "check": "Check the history"
+    "check": "Check the history",
+    "noHistory": "History not found!"
+  },
+  "setting": {
+    "battery": "Battery : ",
+    "internet": "Internet : ",
+    "gps": "Gps : "
   },
   "error": {
     "default": "Oops! error happened. please try again later.",

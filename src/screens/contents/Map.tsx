@@ -1,28 +1,36 @@
-import React, {useState} from "react";
-import {shallowEqual, useSelector, useDispatch} from "react-redux";
+import React, {useReducer} from "react";
+import {shallowEqual, useSelector} from "react-redux";
 import {useQuery} from 'react-query';
 import {useTranslation} from 'react-i18next';
-import {dataSliceActions, RootState} from "../../store/store";
-import {DevicesList, MapBox} from "../../components/main/mainComponents";
-import {getCookie} from "../../helper/CookieHandler";
-import {getDistance, getSpeed} from "../../helper/Calculator";
+import Snackbar from "@mui/material/Snackbar";
+import {RootState} from "../../store/store";
 import {staticData} from "../../constants/staticData";
+import {DevicesList, MapBox, Loading} from "../../components/components";
+import {getCookie, getSpeed} from "../../helper/helper";
 import Default from "../../assets/images/default.png";
 import Satellite from "../../assets/images/icons/satellite.svg";
 
 export const Map: React.FC = () => {
 
     const {t} = useTranslation(),
-        {devices, firstTrackedData} = useSelector((state: RootState) => ({
-            devices: state.data.devices,
-            firstTrackedData: state.data.firstTrackedData
+        {devices} = useSelector((state: RootState) => ({
+            devices: state.data.devices
         }), shallowEqual),
-        dispatch = useDispatch(),
-        [device, setDevice] = useState(devices[7] || {}),
         token = getCookie("mk-login-token");
 
-    const fetchData = async () => {
-        const response = await fetch(staticData.devices + device.id + '/ws/GPS', {
+    const initializer = (initialState: any) => initialState,
+        initialState = {
+            device: devices[7] || {},
+            loading: false,
+            snack: false
+        };
+
+    const [state, dispatch] = useReducer(
+        reducer, initialState, initializer
+    );
+
+    const fetchData = async (deviceId:string, token:string) => {
+        const response = await fetch(staticData.devices + deviceId + '/ws/GPS', {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -33,42 +41,40 @@ export const Map: React.FC = () => {
     };
 
     const {data} = useQuery(
-        'fetchData',
-        fetchData,
+        ['fetchData', state.device.id], // Query key should include the device ID for caching and refetching purposes
+        () => fetchData(state.device.id, token),
         {
-            refetchInterval: 4000, // Poll every 4 seconds
-            refetchIntervalInBackground: true, // Continue polling even when window is not in focus
+            refetchInterval: 4000, // Get location every 4 seconds
+            refetchIntervalInBackground: true, // Continue getting location even when window is not in focus
+            onSuccess: (data: any) => {
+                if (!state.snack && data && !data.data.length) dispatch({type: "snack", payload: true});
+            },
+            onSettled: () => {
+                if (state.loading) dispatch({type: "loading", payload: false});
+            }
         }
     ), trackerData = data ? data.data : null;
-
-    // save first tracked data for calculating the distance
-    if (!firstTrackedData && trackerData && trackerData.length) {
-        dispatch(dataSliceActions.setTrackedData(trackerData[0]));
-    }
 
     const lastData = trackerData && trackerData.length ? trackerData[trackerData.length - 1] : null;
 
     return (
         <div className="mk-map-root">
-            <DevicesList onClick={(device) => setDevice(device)}/>
-            <MapBox lat={lastData ? lastData.latitude : '35.69980665825626'}
-                    lng={lastData ? lastData.longitude : '51.33805755767131'}
-                    device={device}/>
+            <DevicesList onClick={(device) => {
+                dispatch({type: "device", payload: device});
+            }}/>
+            <MapBox lat={lastData ? lastData.latitude : null}
+                    lng={lastData ? lastData.longitude : null}
+                    device={state.device}/>
             <div className="mk-map-selected-device">
-                <img src={device['image_url'] || Default} alt="device" className="mk-map-selected-device-img"
+                <img src={state.device['image_url'] || Default} alt="device" className="mk-map-selected-device-img"
                      onError={(e: any) => e.currentTarget.src = Default}/>
                 <div className="mk-map-data-box">
                     <p>{t('map.speed')}</p>
                     <p>{trackerData && trackerData.length ? `${getSpeed(trackerData)} m/s` : "_"}</p>
                 </div>
                 <div className="mk-map-data-box">
-                    <p>{t('map.movement')}</p>
-                    <p>{firstTrackedData && lastData ? `${getDistance({
-                        lat1: Number(firstTrackedData.latitude),
-                        lon1: Number(firstTrackedData.longitude),
-                        lat2: Number(lastData.latitude),
-                        lon2: Number(lastData.longitude),
-                    }).toFixed(1)} m` : "_"}</p>
+                    <p>{t('map.distance')}</p>
+                    <p>_</p>
                 </div>
                 <div className="mk-map-data-box">
                     <p>{t('map.height')}</p>
@@ -76,9 +82,35 @@ export const Map: React.FC = () => {
                 </div>
                 <div className="mk-map-satellites">
                     <img src={Satellite} alt="satellite"/>
-                    <span>{lastData ? lastData['number_of_satellites'] : 1}</span>
+                    <span>{lastData ? lastData['number_of_satellites'] : 0}</span>
                 </div>
             </div>
+            <Snackbar
+                open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
+                autoHideDuration={3000} data-type="error" onClose={() => dispatch({type: "snack", payload: false})}
+                message={t("map.noData")}/>
+            {state.loading && <Loading/>}
         </div>
-    );
+    )
+}
+
+function reducer(state: any, action: any) {
+    switch (action.type) {
+        case "device":
+            return {
+                ...state,
+                device: action.payload,
+                loading: true
+            }
+        case "loading":
+            return {
+                ...state,
+                loading: action.payload
+            }
+        case "snack":
+            return {
+                ...state,
+                snack: action.payload
+            }
+    }
 }

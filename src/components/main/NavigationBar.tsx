@@ -34,9 +34,9 @@ export const NavigationBar: React.FC = () => {
             target: "/health"
         },
         {
-            label: t("navigation.information"),
+            label: t("navigation.setting"),
             icon: Paw,
-            target: "/information"
+            target: "/setting"
         },
         {
             label: t("navigation.profile"),

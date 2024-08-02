@@ -2,18 +2,18 @@ import React, {useEffect} from "react";
 import {Outlet} from "react-router-dom";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {useTranslation} from 'react-i18next';
-import {NavigationBar} from "../components/main/NavigationBar";
-import {staticData} from "../constants/staticData";
-import {getCookie} from "../helper/CookieHandler";
 import {dataSliceActions, RootState} from "../store/store";
+import {staticData} from "../constants/staticData";
+import {NavigationBar} from "../components/components";
+import {deleteCookie, getCookie, useWarnOnClose} from "../helper/helper";
 
 export const Main: React.FC = () => {
 
-    const dispatch = useDispatch(),
+    const {t} = useTranslation(),
+        dispatch = useDispatch(),
         {devices} = useSelector((state: RootState) => ({
             devices: state.data.devices
         }), shallowEqual),
-        {t} = useTranslation(),
         token = getCookie("mk-login-token");
 
     // check if token is valid but there is no device, call the devices api
@@ -27,7 +27,7 @@ export const Main: React.FC = () => {
             }).then((response) => {
                 return response.json();
             }).then((devicesData) => {
-                const filteredDevices = devicesData.devices.filter((device:any) => device.state === "Active");
+                const filteredDevices = devicesData.devices.filter((device: any) => device.state === "Active");
 
                 fetch(staticData.devices + filteredDevices[0].id + "/verb", {
                     method: "POST",
@@ -47,6 +47,14 @@ export const Main: React.FC = () => {
             })
         }
     }, []);
+
+    // alert user when tries to leave the app. logout when leaves => deleting cookie and data
+    const handleLeaveApp = () => {
+        deleteCookie("mk-login-token");
+        dispatch(dataSliceActions.resetData());
+    }
+
+    useWarnOnClose(handleLeaveApp);
 
     return (
         <div className="mk-main-root">

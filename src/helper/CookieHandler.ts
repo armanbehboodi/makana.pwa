@@ -1,5 +1,5 @@
-const setCookie = (name: string, value: string, days: number) => {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+const setCookie = (name: string, value: string, hours: number) => {
+    const expires = new Date(Date.now() + hours * 3600000).toUTCString();
     document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
 };
 

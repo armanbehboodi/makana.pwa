@@ -38,16 +38,16 @@ const getSpeed = (data: any[]): string => {
     return speed.toFixed(1); // Return speed formatted to 1 decimal place
 };
 
-const getTimeStamp = (dateStr: string, timeStr: string) => {
+const getTimeStamp = (dateStr: string, timeStr: string | number) => {
     const date = dateStr.split("/").reverse().map(item => item.toString().padStart(2, '0')),
-        time = timeStr.split(":").map(item => item.toString().padStart(2, '0'));
+        time = typeof timeStr === "number" ? [`${new Date(timeStr).getHours()}`, `${new Date(timeStr).getHours()}`] : timeStr.split(":").map(item => item.toString().padStart(2, '0'));
 
     time.push("00");
 
     return `${date[0]}${date[2]}${date[1]}${time.join("")}`;
 };
 
-const getJalaliData = (gregorianDateStr:string) => {
+const getJalaliData = (gregorianDateStr: string) => {
 
     // Extract year, month, day, hour, minute, second
     const year = parseInt(gregorianDateStr.slice(0, 4), 10),

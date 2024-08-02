@@ -3,9 +3,9 @@ import {shallowEqual, useSelector} from "react-redux";
 import {useTranslation} from 'react-i18next';
 import Snackbar from "@mui/material/Snackbar";
 import {RootState} from "../../store/store";
-import Default from "../../assets/images/default.png";
 import {staticData} from "../../constants/staticData";
-import {getCookie} from "../../helper/CookieHandler";
+import {getCookie} from "../../helper/helper";
+import Default from "../../assets/images/default.png";
 
 interface IProps {
     onClick: (device: any) => void
@@ -23,22 +23,24 @@ export const DevicesList: React.FC<IProps> = (props) => {
         [snack, setSnack] = useState(false);
 
     const clickHandler = (device: any) => {
-        fetch(staticData.devices + device.id + "/verb", {
-            method: "POST",
-            body: JSON.stringify({
-                status: "open"
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        })
-            .then((response) => {
-                if (response.ok) {
-                    props.onClick(device);
-                    setSelectedDevice(device);
-                } else setSnack(true);
+        if (device.id !== selectedDevice.id) {
+            fetch(staticData.devices + device.id + "/verb", {
+                method: "POST",
+                body: JSON.stringify({
+                    status: "open"
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
             })
+                .then((response) => {
+                    if (response.ok) {
+                        props.onClick(device);
+                        setSelectedDevice(device);
+                    } else setSnack(true);
+                })
+        }
     }
 
     return (

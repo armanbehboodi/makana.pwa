@@ -18,25 +18,33 @@
   },
   "map": {
     "speed": "سرعت",
-    "movement": "جابه\u200Cجایی",
+    "distance": "مسافت",
     "height": "ارتفاع",
     "popup": "اینجاست!",
     "popupDefault": "موقعیت دستگاه",
-    "satellite": "تعداد ماهواره ها : "
+    "satellite": "تعداد ماهواره ها : ",
+    "noData": "داده ای برای نمایش وجود ندارد!"
   },
   "navigation": {
     "map": "نقشه",
     "history": "تاریخچه",
     "health": "سلامت",
     "information": "مشخصات",
-    "profile": "پروفایل"
+    "profile": "پروفایل",
+    "setting": "تنظیمات"
   },
   "date": {
     "start": "تاریخ شروع",
     "end": "تاریخ پایان"
   },
   "history": {
-    "check": "بررسی تاریخچه"
+    "check": "بررسی تاریخچه",
+    "noHistory": "تاریخچه ای یافت نشد!"
+  },
+  "setting": {
+    "battery": "باتری : ",
+    "internet": "اینترنت : ",
+    "gps": "جی پی اس : "
   },
   "error": {
     "default": "خطایی رخ داد! لطفا مجددا تلاش نمایید.",

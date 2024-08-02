@@ -3,12 +3,12 @@ import {shallowEqual, useSelector} from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import OtpInput from 'react-otp-input';
-import Logo from "../assets/images/logoWithText.jpg";
-import {ButtonField} from "../components/ui/ButtonField";
+import Snackbar from "@mui/material/Snackbar";
 import {RootState} from "../store/store";
 import {staticData} from "../constants/staticData";
-import Snackbar from "@mui/material/Snackbar";
-import {p2e} from "../helper/LngConvertor";
+import {ButtonField} from "../components/components";
+import {p2e} from "../helper/helper";
+import Logo from "../assets/images/logoWithText.jpg";
 
 export const Verify:React.FC = () => {
     const {t} = useTranslation(),

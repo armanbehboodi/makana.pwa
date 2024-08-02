@@ -4,7 +4,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import ReplayIcon from '@mui/icons-material/Replay';
-import {CountDown} from "../helper/CountDown";
+import {CountDown} from "../components";
 
 interface IProps {
     label: string,
