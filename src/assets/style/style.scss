@@ -18,6 +18,10 @@ body {
   outline: none;
 }
 
+:focus {
+  outline: none !important;
+}
+
 /* REGISTER */
 
 .mk-register-root {
@@ -450,7 +454,7 @@ body {
   }
 }
 
-body:has(.rdp__modal) {
+body:has(.rdp__modal, .mk-range-picker-root.open) {
   overflow-y: hidden !important;
 }
 

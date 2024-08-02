@@ -84,6 +84,8 @@ export const RangePicker: React.FC<IProps> = ({device, onSet, isDisabled, onChan
 
         if (swipeY !== null && swipeY - swipeEndY > 50) {
             setTrigger(true);
+        } else if (swipeY !== null && swipeEndY - swipeY > 50) {
+            setTrigger(false);
         }
 
         setSwipeY(null);

@@ -65,7 +65,7 @@ export const MapBox: React.FC<IProps> = ({lat, lng, device, polyline, fullData, 
         useEffect(() => {
             if (map) {
                 if (lat) map.setView([Lat, Lng], 18);
-                else map.setZoom(4);
+                else map.setZoom(5);
             }
         }, [Lat, Lng]);
 
