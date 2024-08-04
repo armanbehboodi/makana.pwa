@@ -13,10 +13,11 @@ interface IProps {
     title?: string,
     icon?: string,
     label?: string,
-    disabled?: boolean
+    disabled?: boolean,
+    size?: any
 }
 
-export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, label, title,disabled}) => {
+export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, label, title,disabled, size}) => {
 
     const {t} = useTranslation(),
         [checked, setChecked] = useState(isChecked);
@@ -58,7 +59,7 @@ export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, la
                 {title ? <p className="mk-switch-title">{title}</p> : null}
                 <FormControlLabel
                     control={
-                        <Switch checked={checked} onChange={changeHandler} disabled={disabled}/>
+                        <Switch checked={checked} onChange={changeHandler} disabled={disabled} size={size || "medium"}/>
                     }
                     label={checked ? onLabel : offLabel}
                 />
@@ -74,7 +75,7 @@ export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, la
     return (
         <div className="mk-switch-box">
             {title ? <p className="mk-switch-title">{title}</p> : null}
-            <Switch checked={checked} onChange={changeHandler} disabled={disabled}/>
+            <Switch checked={checked} onChange={changeHandler} disabled={disabled} size={size || "medium"}/>
             {icon ?
                 checked ? <img src={onIcon} alt="on"/> : <img src={offIcon} alt="off"/>
                 :

@@ -331,15 +331,15 @@ body {
   .mk-setting-status {
     display: flex;
     flex-flow: row nowrap;
-    padding: 1.5rem 1rem;
-    gap: 1.5rem;
+    padding: 1.5rem;
+    gap: 1rem;
   }
 
   .mk-setting-general {
     display: flex;
     flex-flow: column;
     padding: 1.5rem 1rem;
-    margin: 0.5em 1rem 2rem;
+    margin: 0.5em 1.5rem 2rem;
     background-color: $light;
     box-shadow: 1px 1px 5px $lightGray;
     border-radius: 1rem;
@@ -527,7 +527,7 @@ body:has(.rdp__modal, .mk-range-picker-root.open) {
   direction: rtl;
 
   .mk-switch-title {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     margin: 0;
   }
 
@@ -541,7 +541,7 @@ body:has(.rdp__modal, .mk-range-picker-root.open) {
   }
 
   img {
-    width: 2.5rem;
+    width: 2rem;
   }
 }
 
