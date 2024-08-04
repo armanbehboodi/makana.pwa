@@ -2,13 +2,13 @@ import React, {useReducer} from "react";
 import {shallowEqual, useSelector} from "react-redux";
 import {useQuery} from 'react-query';
 import {useTranslation} from 'react-i18next';
-import Snackbar from "@mui/material/Snackbar";
 import {RootState} from "../../store/store";
 import {staticData} from "../../constants/staticData";
 import {DevicesList, MapBox, Loading} from "../../components/components";
 import {getCookie, getSpeed} from "../../helper/helper";
 import Default from "../../assets/images/default.png";
 import Satellite from "../../assets/images/icons/satellite.svg";
+import {SnackField} from "../../components/ui/SnackField";
 
 export const Map: React.FC = () => {
 
@@ -29,8 +29,8 @@ export const Map: React.FC = () => {
         reducer, initialState, initializer
     );
 
-    const fetchData = async (deviceId:string, token:string) => {
-        const response = await fetch(staticData.devices + deviceId + '/ws/GPS', {
+    const fetchData = async (deviceId: string, token: string) => {
+        const response = await fetch(staticData.devices_api + deviceId + '/ws/GPS', {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -85,10 +85,8 @@ export const Map: React.FC = () => {
                     <span>{lastData ? lastData['number_of_satellites'] : 0}</span>
                 </div>
             </div>
-            <Snackbar
-                open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
-                autoHideDuration={3000} data-type="error" onClose={() => dispatch({type: "snack", payload: false})}
-                message={t("map.noData")}/>
+            <SnackField isOpen={state.snack} type={"error"} message={t("map.noData")}
+                        closeHandler={() => dispatch({type: "snack", payload: false})}/>
             {state.loading && <Loading/>}
         </div>
     )

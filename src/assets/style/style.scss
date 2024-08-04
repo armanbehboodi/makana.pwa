@@ -327,20 +327,56 @@ body {
 
 /* SETTING */
 
-.mk-setting-status {
-  display: flex;
-  flex-flow: row nowrap;
-  padding: 1.5rem 0;
-  gap: 1rem;
+.mk-setting {
+  .mk-setting-status {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .mk-setting-general {
+    display: flex;
+    flex-flow: column;
+    padding: 1.5rem 1rem;
+    margin: 0.5em 1rem 2rem;
+    background-color: $light;
+    box-shadow: 1px 1px 5px $lightGray;
+    border-radius: 1rem;
+
+    .mk-setting-general-header {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      gap: 0.5rem;
+      direction: rtl;
+
+      img {
+        width: 3.5rem;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        margin: 2px 0 0 0;
+      }
+    }
+    .mk-setting-switch-box {
+      display: flex;
+      flex-flow: row nowrap;
+      margin: 1rem;
+      justify-content: space-around;
+    }
+  }
 }
 
 .mk-card {
-  width: calc(33% - 0.66rem);
+  width: calc(33% - 1.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: $light;
+  box-shadow: 1px 1px 5px $lightGray;
   padding: 1.5rem;
   border-radius: 1rem;
   gap: 0.5rem;
@@ -479,6 +515,34 @@ body:has(.rdp__modal, .mk-range-picker-root.open) {
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+/* GENERAL - SWITCH FIELD */
+
+.mk-switch-box {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  direction: rtl;
+
+  .mk-switch-title {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  label {
+    margin: 0 !important;
+
+    .MuiFormControlLabel-label {
+      text-align: center;
+      min-width: 4rem;
+    }
+  }
+
+  img {
+    width: 2.5rem;
+  }
 }
 
 /* MEDIA QUERIES */

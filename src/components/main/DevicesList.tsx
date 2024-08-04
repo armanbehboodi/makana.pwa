@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {shallowEqual, useSelector} from "react-redux";
 import {useTranslation} from 'react-i18next';
-import Snackbar from "@mui/material/Snackbar";
 import {RootState} from "../../store/store";
 import {staticData} from "../../constants/staticData";
 import {getCookie} from "../../helper/helper";
 import Default from "../../assets/images/default.png";
+import {SnackField} from "../ui/SnackField";
 
 interface IProps {
     onClick: (device: any) => void
@@ -24,7 +24,7 @@ export const DevicesList: React.FC<IProps> = (props) => {
 
     const clickHandler = (device: any) => {
         if (device.id !== selectedDevice.id) {
-            fetch(staticData.devices + device.id + "/verb", {
+            fetch(staticData.devices_api + device.id + "/verb", {
                 method: "POST",
                 body: JSON.stringify({
                     status: "open"
@@ -56,11 +56,8 @@ export const DevicesList: React.FC<IProps> = (props) => {
                     </div>
                 )
             })}
-            <Snackbar
-                open={snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
-                autoHideDuration={5000} data-type="error"
-                onClose={() => setSnack(false)}
-                message={t('error.default')}/>
+            <SnackField isOpen={snack} type={"error"} duration={5000} message={t('error.default')}
+                        closeHandler={() => setSnack(false)}/>
         </div>
     )
 }

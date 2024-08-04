@@ -2,12 +2,12 @@ import React, {useRef, useReducer} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import Snackbar from '@mui/material/Snackbar';
 import {dataSliceActions} from "../store/store";
 import {staticData} from "../constants/staticData";
 import {Validator, p2e} from "../helper/helper";
 import {TextField, CheckField, ButtonField} from "../components/components";
 import Logo from "../assets/images/logoWithText.jpg";
+import {SnackField} from "../components/ui/SnackField";
 
 export const Register: React.FC = () => {
     const {t} = useTranslation(),
@@ -89,11 +89,8 @@ export const Register: React.FC = () => {
                 <ButtonField label={t('register.account')} icon="account" color="gray"
                              pressHandler={() => navigate("/login")}/>
             </div>
-            <Snackbar
-                open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
-                autoHideDuration={5000} data-type="error"
-                onClose={() => dispatch({type: "closeSnack"})}
-                message={state.snackMessage}/>
+            <SnackField isOpen={state.snack} type={"error"} duration={5000} message={state.snackMessage}
+                        closeHandler={() => dispatch({type: "closeSnack"})}/>
         </div>
     )
 };

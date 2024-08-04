@@ -1,16 +1,16 @@
 import React, {useEffect, useReducer} from "react";
 import {shallowEqual, useSelector} from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import OtpInput from 'react-otp-input';
-import Snackbar from "@mui/material/Snackbar";
 import {RootState} from "../store/store";
 import {staticData} from "../constants/staticData";
 import {ButtonField} from "../components/components";
 import {p2e} from "../helper/helper";
 import Logo from "../assets/images/logoWithText.jpg";
+import {SnackField} from "../components/ui/SnackField";
 
-export const Verify:React.FC = () => {
+export const Verify: React.FC = () => {
     const {t} = useTranslation(),
         navigate = useNavigate(),
         {mobile} = useSelector((state: RootState) => ({
@@ -73,7 +73,7 @@ export const Verify:React.FC = () => {
                 dispatch({type: "snack", payload: {snack: true, message: t('otp.success'), type: "success"}});
                 setTimeout(() => {
                     navigate("/login");
-                },5000);
+                }, 5000);
             } else {
                 dispatch({type: "snack", payload: {snack: true, message: t(`error.${data.message}`)}});
             }
@@ -106,11 +106,8 @@ export const Verify:React.FC = () => {
                              isDisabled={!state.resend} countDownSeconds={!state.resend ? 120 : null}
                              finishCountDown={() => dispatch({type: "resend", payload: true})}/>
             </div>
-            <Snackbar
-                open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
-                autoHideDuration={5000} data-type={state.snackType}
-                onClose={() => dispatch({type: "closeSnack"})}
-                message={state.snackMessage}/>
+            <SnackField isOpen={state.snack} type={state.snackType} duration={5000} message={state.snackMessage}
+                        closeHandler={() => dispatch({type: "closeSnack"})}/>
         </div>
     )
 };

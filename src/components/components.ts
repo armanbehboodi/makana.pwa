@@ -3,6 +3,7 @@ import {TextField} from "./ui/TextField";
 import {CheckField} from "./ui/CheckField";
 import {SmallSlider, MediumSlider, LargeSlider} from "./ui/SliderField";
 import {CardField} from "./ui/CardField";
+import {SwitchField} from "./ui/SwitchField";
 
 import {DevicesList} from "./main/DevicesList";
 import {MapBox} from "./main/MapBox";
@@ -22,6 +23,7 @@ export {
     MediumSlider,
     LargeSlider,
     CardField,
+    SwitchField,
     DevicesList,
     MapBox,
     NavigationBar,

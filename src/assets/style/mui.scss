@@ -50,6 +50,21 @@ html[lang='fa'] {
     text-align: right;
     font-family: iranSans, sans-serif, Tahoma !important;
   }
+
+  .MuiSnackbarContent-root {
+    .MuiSnackbarContent-action {
+      margin: -15px auto 0 -8px !important;
+      padding: 0 !important;
+
+      button {
+        padding: 0;
+
+        .MuiSvgIcon-root {
+          font-size: 1.75rem;
+        }
+      }
+    }
+  }
 }
 
 /* Some global customization (color, status and size) */

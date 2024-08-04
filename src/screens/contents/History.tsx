@@ -1,9 +1,9 @@
 import React, {useReducer} from "react";
 import {shallowEqual, useSelector} from "react-redux";
 import {useTranslation} from 'react-i18next';
-import Snackbar from "@mui/material/Snackbar";
 import {RootState} from "../../store/store";
 import {RangePicker, DevicesList, MapBox} from "../../components/components";
+import {SnackField} from "../../components/ui/SnackField";
 
 export const History: React.FC = () => {
 
@@ -31,13 +31,11 @@ export const History: React.FC = () => {
             <MapBox device={state.device} fullData={state.fullData}
                     polyline={state.polyline} range={state.range}/>
             <RangePicker
-               onSet={(data) => dispatch({type: "set_polyline", payload: data})}
+                onSet={(data) => dispatch({type: "set_polyline", payload: data})}
                 isDisabled={!state.fullData.length} device={state.device}
                 onChangeRange={(range: number) => dispatch({type: "set_range", payload: range})}/>
-            <Snackbar
-                open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
-                autoHideDuration={3000} data-type="error" onClose={() => dispatch({type: "set_snack", payload: false})}
-                message={t("history.noHistory")}/>
+            <SnackField isOpen={state.snack} type={"error"} message={t("history.noHistory")}
+                        closeHandler={() => dispatch({type: "set_snack", payload: false})}/>
         </div>
     )
 }

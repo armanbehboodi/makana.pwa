@@ -2,12 +2,12 @@ import React, {useReducer, useRef} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import Snackbar from "@mui/material/Snackbar";
 import {dataSliceActions} from "../store/store";
 import {staticData} from "../constants/staticData";
 import {TextField, ButtonField} from "../components/components";
 import {setCookie, p2e, Validator} from "../helper/helper";
 import Logo from "../assets/images/logoWithText.jpg";
+import {SnackField} from "../components/ui/SnackField";
 
 export const Login: React.FC = () => {
     const {t} = useTranslation(),
@@ -56,7 +56,7 @@ export const Login: React.FC = () => {
                 const loginData = await response.json();
 
                 if (response.ok) {
-                    fetch(staticData.devices, {
+                    fetch(staticData.devices_api, {
                         headers: {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${loginData['token']}`
@@ -64,13 +64,13 @@ export const Login: React.FC = () => {
                     }).then((response) => {
                         return response.json();
                     }).then((devicesData) => {
-                        const filteredDevices = devicesData.devices.filter((device:any) => device.state === "Active");
+                        const filteredDevices = devicesData.devices.filter((device: any) => device.state === "Active");
 
                         setCookie("mk-login-token", loginData['token'], 3);
                         reduxDispatch(dataSliceActions.setDevices({devices: filteredDevices}));
 
                         // activating the first device (default selected device)
-                        fetch(staticData.devices + filteredDevices[0].id + "/verb", {
+                        fetch(staticData.devices_api + filteredDevices[0].id + "/verb", {
                             method: "POST",
                             body: JSON.stringify({
                                 status: "open"
@@ -110,11 +110,8 @@ export const Login: React.FC = () => {
                              pressHandler={() => navigate("/register")}/>
                 <ButtonField label={t('register.confirm')} icon="confirm" color="main" pressHandler={loginHandler}/>
             </div>
-            <Snackbar
-                open={state.snack} anchorOrigin={{vertical: "top", horizontal: "right"}}
-                autoHideDuration={5000} data-type="error"
-                onClose={() => dispatch({type: "closeSnack"})}
-                message={state.snackMessage}/>
+            <SnackField isOpen={state.snack} type={"error"} message={state.snackMessage} duration={5000}
+                        closeHandler={() => dispatch({type: "closeSnack"})}/>
         </div>
     )
 };

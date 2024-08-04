@@ -44,7 +44,20 @@
   "setting": {
     "battery": "Battery : ",
     "internet": "Internet : ",
-    "gps": "Gps : "
+    "gps": "Gps : ",
+    "general": "Led and sound setting",
+    "light": "Light status : ",
+    "sound": "Sound status : ",
+    "soundOn": "Sound activated.",
+    "soundOff": "Sound disabled.",
+    "lightOn": "The light turned on.",
+    "lightOff": "The light turned off."
+  },
+  "general": {
+    "on": "On",
+    "off": "Off",
+    "enable": "Enable",
+    "disable": "Disable"
   },
   "error": {
     "default": "Oops! error happened. please try again later.",

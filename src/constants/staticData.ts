@@ -4,5 +4,5 @@ export const staticData = {
     refresh_code_api: "https://makana-backend.abriment.com/users/refreshcode",
     login_api: "https://makana-backend.abriment.com/users/login",
     logout_api: "https://makana-backend.abriment.com/users/logout",
-    devices: "https://makana-backend.abriment.com/devices/"
+    devices_api: "https://makana-backend.abriment.com/devices/"
 }

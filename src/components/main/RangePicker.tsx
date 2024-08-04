@@ -55,7 +55,7 @@ export const RangePicker: React.FC<IProps> = ({device, onSet, isDisabled, onChan
     }
 
     const pressHandler = async () => {
-        const response = await fetch(staticData.devices + device.id + '/archive/gps?end_time=' + getTimeStamp(endDate, endTime) + '&start_time=' + getTimeStamp(startDate, startTime), {
+        const response = await fetch(staticData.devices_api + device.id + '/archive/gps?end_time=' + getTimeStamp(endDate, endTime) + '&start_time=' + getTimeStamp(startDate, startTime), {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`

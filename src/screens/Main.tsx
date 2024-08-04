@@ -19,7 +19,7 @@ export const Main: React.FC = () => {
     // check if token is valid but there is no device, call the devices api
     useEffect(() => {
         if (token.length && !devices.length) {
-            fetch(staticData.devices, {
+            fetch(staticData.devices_api, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -29,7 +29,7 @@ export const Main: React.FC = () => {
             }).then((devicesData) => {
                 const filteredDevices = devicesData.devices.filter((device: any) => device.state === "Active");
 
-                fetch(staticData.devices + filteredDevices[0].id + "/verb", {
+                fetch(staticData.devices_api + filteredDevices[0].id + "/verb", {
                     method: "POST",
                     body: JSON.stringify({
                         status: "open"

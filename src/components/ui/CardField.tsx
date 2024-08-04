@@ -1,10 +1,9 @@
 import React from "react";
 import Signal from "../../assets/images/icons/signal.svg";
 import Gps from "../../assets/images/icons/gps.svg";
-import Battery100 from "../../assets/images/icons/battery100.svg";
-import Battery75 from "../../assets/images/icons/battery75.svg";
-import Battery50 from "../../assets/images/icons/battery50.svg";
-import Battery25 from "../../assets/images/icons/battery25.svg";
+import BatteryFull from "../../assets/images/icons/battery-full.svg";
+import BatteryMid from "../../assets/images/icons/battery-mid.svg";
+import BatteryLow from "../../assets/images/icons/battery-low.svg";
 
 interface IProps {
     icon: string,
@@ -21,17 +20,14 @@ export const CardField:React.FC<IProps> = ({icon, text}) => {
         case "gps":
             iconSrc = Gps;
             break;
-        case "b100":
-            iconSrc = Battery100;
+        case "bf":
+            iconSrc = BatteryFull;
             break;
-        case "b75":
-            iconSrc = Battery75;
+        case "bm":
+            iconSrc = BatteryMid;
             break;
-        case "b50":
-            iconSrc = Battery50;
-            break;
-        case "b25":
-            iconSrc = Battery25;
+        case "bl":
+            iconSrc = BatteryLow;
             break;
     }
 
