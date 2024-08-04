@@ -74,11 +74,9 @@ export const Setting: React.FC = () => {
                 </div>
                 <div className="mk-setting-switch-box">
                     <SwitchField isChecked={false} handleChange={(value: boolean) => serviceHandler("led", value)}
-                                 icon="light" disabled={state.snack.visible} size="small"
-                                 title={t("setting.light")}/>
+                                 icon="light" disabled={state.snack.visible} title={t("setting.light")}/>
                     <SwitchField isChecked={false} handleChange={(value: boolean) => serviceHandler("sound", value)}
-                                 icon="sound" disabled={state.snack.visible} size="small"
-                                 title={t("setting.sound")}/>
+                                 icon="sound" disabled={state.snack.visible} title={t("setting.sound")}/>
                 </div>
             </div>
             <SnackField isOpen={state.snack.visible} type={state.snack.type} message={state.snack.message}
