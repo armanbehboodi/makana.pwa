@@ -16,7 +16,7 @@ export const History: React.FC = () => {
         initialState = {
             polyline: false,
             fullData: [],
-            device: devices[7] || {},
+            device: devices[0] || {},
             range: null,
             snack: false
         };

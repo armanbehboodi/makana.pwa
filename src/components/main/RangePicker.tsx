@@ -52,7 +52,7 @@ export const RangePicker: React.FC<IProps> = ({device, onSet, isDisabled, onChan
         if (modal) {
             modal.style.display = "none";
         }
-    }
+    };
 
     const pressHandler = async () => {
         const response = await fetch(staticData.devices_api + device.id + '/archive/gps?end_time=' + getTimeStamp(endDate, endTime) + '&start_time=' + getTimeStamp(startDate, startTime), {
@@ -64,7 +64,7 @@ export const RangePicker: React.FC<IProps> = ({device, onSet, isDisabled, onChan
 
         setTrigger(false);
         onSet(result['data']);
-    }
+    };
 
     let timer: any;
     const changeRangeHandler = (range: number) => {
@@ -72,7 +72,7 @@ export const RangePicker: React.FC<IProps> = ({device, onSet, isDisabled, onChan
         timer = setTimeout(() => {
             onChangeRange(range);
         }, 500);
-    }
+    };
 
     // user can open rangePicker component by swiping up the trigger
     const handleTouchStart = (e:any) => {

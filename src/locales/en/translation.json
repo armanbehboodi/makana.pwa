@@ -51,13 +51,21 @@
     "soundOn": "Sound activated.",
     "soundOff": "Sound disabled.",
     "lightOn": "The light turned on.",
-    "lightOff": "The light turned off."
+    "lightOff": "The light turned off.",
+    "fence": "Virtual fence"
+  },
+  "fences": {
+    "noResult": "You have not defined a fancy yet. To define a fence, press the Add Fence button.",
+    "add": "Add fence"
   },
   "general": {
     "on": "On",
     "off": "Off",
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "strong": "Strong",
+    "weak": "Weak",
+    "save": "Save"
   },
   "error": {
     "default": "Oops! error happened. please try again later.",

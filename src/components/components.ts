@@ -4,6 +4,7 @@ import {CheckField} from "./ui/CheckField";
 import {SmallSlider, MediumSlider, LargeSlider} from "./ui/SliderField";
 import {CardField} from "./ui/CardField";
 import {SwitchField} from "./ui/SwitchField";
+import {SnackField} from "./ui/SnackField";
 
 import {DevicesList} from "./main/DevicesList";
 import {MapBox} from "./main/MapBox";
@@ -24,6 +25,7 @@ export {
     LargeSlider,
     CardField,
     SwitchField,
+    SnackField,
     DevicesList,
     MapBox,
     NavigationBar,

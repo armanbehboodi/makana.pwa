@@ -129,3 +129,20 @@ span.MuiButtonBase-root svg.MuiSvgIcon-root {
   font-size: 1.4rem !important;
   box-shadow: 2px 2px 10px $lightGray;
 }
+
+.MuiModal-root {
+  z-index: 99999 !important;
+}
+
+.MuiAppBar-root {
+  background-color: #0a81d7 !important;
+  box-shadow: none !important;
+
+  .MuiButtonBase-root {
+    width: fit-content !important;
+  }
+
+  .MuiButton-text {
+    margin-left: auto;
+  }
+}

@@ -7,10 +7,11 @@ import BatteryLow from "../../assets/images/icons/battery-low.svg";
 
 interface IProps {
     icon: string,
-    text: string
+    text: string,
+    extraText?: string
 }
 
-export const CardField:React.FC<IProps> = ({icon, text}) => {
+export const CardField:React.FC<IProps> = ({icon, text, extraText}) => {
 
     let iconSrc;
     switch (icon) {
@@ -34,7 +35,7 @@ export const CardField:React.FC<IProps> = ({icon, text}) => {
     return (
         <div className="mk-card">
             <img src={iconSrc} alt="icon"/>
-            <p>{text}</p>
+            <p>{text} {extraText ? " " + extraText : null}</p>
         </div>
     )
 }

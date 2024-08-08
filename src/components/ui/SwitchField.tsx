@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {useTranslation} from 'react-i18next';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,21 +13,17 @@ interface IProps {
     title?: string,
     icon?: string,
     label?: string,
-    disabled?: boolean,
     size?: any
 }
 
-export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, label, title,disabled, size}) => {
+export const SwitchField: React.FC<IProps> = React.memo(({isChecked, handleChange, icon, label, title, size}) => {
 
     const {t} = useTranslation(),
         [checked, setChecked] = useState(isChecked);
 
-    const changeHandler = (e:any) => {
-        const checked = e.target.checked;
-
-        handleChange(checked);
-        setChecked(checked);
-    };
+    useEffect(() => {
+        setChecked(isChecked);
+    }, [isChecked]);
 
     let onLabel, offLabel, onIcon, offIcon;
 
@@ -59,7 +55,9 @@ export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, la
                 {title ? <p className="mk-switch-title">{title}</p> : null}
                 <FormControlLabel
                     control={
-                        <Switch checked={checked} onChange={changeHandler} disabled={disabled} size={size || "medium"}/>
+                        <Switch checked={checked}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e.target.checked)}
+                                size={size || "medium"}/>
                     }
                     label={checked ? onLabel : offLabel}
                 />
@@ -75,7 +73,8 @@ export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, la
     return (
         <div className="mk-switch-box">
             {title ? <p className="mk-switch-title">{title}</p> : null}
-            <Switch checked={checked} onChange={changeHandler} disabled={disabled} size={size || "medium"}/>
+            <Switch checked={checked} onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e.target.checked)}
+                    size={size || "medium"}/>
             {icon ?
                 checked ? <img src={onIcon} alt="on"/> : <img src={offIcon} alt="off"/>
                 :
@@ -83,4 +82,4 @@ export const SwitchField: React.FC<IProps> = ({isChecked, handleChange, icon, la
             }
         </div>
     )
-}
+})

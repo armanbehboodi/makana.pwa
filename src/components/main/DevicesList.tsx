@@ -19,7 +19,7 @@ export const DevicesList: React.FC<IProps> = (props) => {
     const {devices} = useSelector((state: RootState) => ({
             devices: state.data.devices
         }), shallowEqual),
-        [selectedDevice, setSelectedDevice] = useState(devices[7]),
+        [selectedDevice, setSelectedDevice] = useState(devices[0]),
         [snack, setSnack] = useState(false);
 
     const clickHandler = (device: any) => {

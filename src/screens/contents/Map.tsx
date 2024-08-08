@@ -20,7 +20,7 @@ export const Map: React.FC = () => {
 
     const initializer = (initialState: any) => initialState,
         initialState = {
-            device: devices[7] || {},
+            device: devices[0] || {},
             loading: false,
             snack: false
         };
@@ -49,7 +49,7 @@ export const Map: React.FC = () => {
             onSuccess: (data: any) => {
                 if (!state.snack && data && !data.data.length) dispatch({type: "snack", payload: true});
             },
-            onSettled: () => {
+            onSettled: () => { // executes either success or fail
                 if (state.loading) dispatch({type: "loading", payload: false});
             }
         }
